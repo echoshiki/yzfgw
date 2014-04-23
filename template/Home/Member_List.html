@@ -1,0 +1,197 @@
+<include file="Public:head"/>
+<!-- BEGIN PAGE LEVEL STYLES --> 
+	<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
+	<link href="__ROOT__/public/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/jqvmap.css" rel="stylesheet" type="text/css" /public/media="screen"/>
+	<link href="__ROOT__/public/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" /public/media="screen"/>
+<!-- END PAGE LEVEL STYLES -->
+		<!-- BEGIN PAGE -->
+<div class="page-content" style="min-height:560px;">
+	<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+	<div id="portlet-config" class="modal hide">
+		<div class="modal-header">
+			<button data-dismiss="modal" class="close" type="button"></button>
+			<h3>Widget Settings</h3>
+		</div>
+		<div class="modal-body">
+			Widget settings form goes here
+		</div>
+	</div>
+	<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+	<!-- BEGIN PAGE CONTAINER-->
+	<div class="container-fluid">
+		<!-- BEGIN PAGE HEADER-->
+		<div class="row-fluid">
+			<div class="span12">
+				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+				<h3 class="page-title"> {:session('agentname')} <small>欢迎进入广陵区项目管理系统</small></h3>
+			</div>
+		</div>
+		<!-- END PAGE HEADER-->
+		
+
+	</div>
+	<!-- END PAGE CONTAINER-->    
+</div>
+<!-- END PAGE -->
+<include file="Public:footer"/>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="__ROOT__/public/media/js/jquery.vmap.js" type="text/javascript"></script>   
+<script src="__ROOT__/public/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.sampledata.js" type="text/javascript"></script>  
+<script src="__ROOT__/public/media/js/jquery.flot.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.flot.resize.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/date.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/daterangepicker.js" type="text/javascript"></script>     
+<script src="__ROOT__/public/media/js/jquery.gritter.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/fullcalendar.min.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script>  
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="__ROOT__/public/media/js/app.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->  
+<!-- END JAVASCRIPTS -->
+<script>
+var Index = function () {
+return {
+	//main function to initiate the module
+	init: function () {
+		App.addResponsiveHandler(function () {
+			Index.initCalendar();
+			jQuery('.vmaps').each(function () {
+				var map = jQuery(this);
+				map.width(map.parent().width());
+			});
+		});
+	},
+
+initCharts: function () {
+	if (!jQuery.plot) {
+		return;
+	}
+	
+function showTooltip(title, x, y, contents) {
+	$('<div id="tooltip" class="chart-tooltip"><div class="date">' + title + '<\/div><div class="label label-success">CTR: ' + x + '<\/div><div class="label label-important">Imp: ' + y + '<\/div><\/div>').css({
+		position: 'absolute',
+		display: 'none',
+		top: y - 100,
+		width: 75,
+		left: x - 40,
+		border: '0px solid #ccc',
+		padding: '2px 6px',
+		'background-color': '#fff',
+	}).appendTo("body").fadeIn(200);
+}
+
+<php>$i=0;$j=0;$m=0;</php>
+var pageviews = [
+<foreach name="chartmemberlist" item="v" key="k">
+	[{$i}, {$v}]<if condition="$i neq '29' ">,</if>
+<php>$i++;</php>
+</foreach>
+];
+
+var visitors = [
+<foreach name="chartorderlist" item="v" key="k">
+	[{$j}, {$v}]<if condition="$j neq '29' ">,</if>
+<php>$j++;</php>
+</foreach>
+];
+			
+            if ($('#site_statistics').size() != 0) {
+                $('#site_statistics_loading').hide();
+                $('#site_statistics_content').show();
+                var plot_statistics = $.plot($("#site_statistics"), [{
+                        data: pageviews,
+                        label: "净增会员数"
+                    }, {
+                        data: visitors,
+                        label: "净增订单数"
+                    }
+                ], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2,
+                            fill: true,
+                            fillColor: {
+                                colors: [{
+                                        opacity: 0.05
+                                    }, {
+                                        opacity: 0.01
+                                    }
+                                ]
+                            }
+                        },
+                        points: {
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#eee",
+                        borderWidth: 0
+                    },
+                    colors: ["#d12610", "#37b7f3", "#52e136"],
+					xaxis: {
+                        ticks: [
+						
+					<foreach name="chartorderlist" item="v" key="k">				
+						[{$m}, "{$k}"]<if condition="$i neq '29' ">,</if>
+					<php>$m++;</php>	
+					</foreach>	
+						
+						
+						],
+                        tickDecimals: 0
+                    },
+                    yaxis: {
+                        ticks: 11,
+                        tickDecimals: 0
+                    }
+                });
+
+                var previousPoint = null;
+                $("#site_statistics").bind("plothover", function (event, pos, item) {
+                    $("#x").text(pos.x.toFixed(2));
+                    $("#y").text(pos.y.toFixed(2));
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+                            previousPoint = item.dataIndex;
+
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0].toFixed(2),
+                                y = item.datapoint[1].toFixed(2);
+
+                           // showTooltip(item.series.label,item.pageX , item.pageY, item.series.label + " of " + x + " = " + y);
+                        }
+                    } else {
+                        $("#tooltip").remove();
+                        previousPoint = null;
+                    }
+                });
+            }
+        },
+		
+    };
+
+}();
+
+jQuery(document).ready(function(){   
+	   App.init(); // initlayout and core plugins
+	   Index.initCharts(); // init index page's custom scripts
+});
+</script>
+<!-- END BODY -->
+</body>
+</html>

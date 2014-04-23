@@ -1,0 +1,1 @@
+<?phpdefine('APP_DEBUG',true);define('APP_NAME', 'sdwWebsite');define('APP_PATH', './sdwWebsite/');define('RUNTIME_PATH','./sdwWebsiteData/runtime/');define('HTML_PATH','./sdwWebsiteData/html/');define('TMPL_PATH','./template/');define('THINK_PATH','./sdwWebsite/_Core/');require(THINK_PATH.'sdwWebsite.php');?>

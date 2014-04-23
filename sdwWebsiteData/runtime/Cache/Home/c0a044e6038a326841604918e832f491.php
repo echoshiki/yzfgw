@@ -1,0 +1,44 @@
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>广陵区项目管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link rel="stylesheet" href="__ROOT__/Public/bootstrap-3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="__ROOT__/Public/style/agentmain.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+</head>
+<style>
+body{background-color:#eee;}
+.form-signin{max-width: 330px;padding: 15px;margin: 0 auto;}
+
+
+</style>
+<body>
+<div class="container">
+      <form class="form-signin" role="form" method="post">
+        <h2 class="form-signin-heading">广陵区项目管理系统</h2>
+        <input type="text" name="username" class="form-control" placeholder="用户名" required="" autofocus="">
+		<br/>
+
+        <input type="password" name="password" class="form-control" placeholder="密码" required="">
+		<br/>
+		<input name="usertype" type="radio" value="1"> 部门
+		<input name="usertype" type="radio" value="2"> 重大办
+		<input name="usertype" type="radio" value="3"> 乡镇街道
+			<br/><br/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登 入</button>
+      </form>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="__ROOT__/Public/jquery1.10.2.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="__ROOT__/Public/bootstrap-3.0.3/js/bootstrap.min.js"></script>
+</body>
+</html>

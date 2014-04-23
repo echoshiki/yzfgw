@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--[if IE 8]> <html lang="zh-CN" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="zh-CN" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="zh-CN" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+	<meta charset="utf-8" />
+	<title>广陵区项目管理系统</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="__ROOT__/public/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/style-metro.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="__ROOT__/public/media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<link rel="shortcut icon" href="__ROOT__/public/media/image/favicon.ico" />
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+	<!-- BEGIN HEADER -->
+	<div class="header navbar navbar-inverse navbar-fixed-top">
+		<!-- BEGIN TOP NAVIGATION BAR -->
+
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<!-- BEGIN LOGO -->
+				<a class="brand" href="javascript:void(0)" style="margin-left:20px;">
+					广陵区项目管理系统
+				</a>
+				<!-- END LOGO -->
+
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+
+				<a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+				<img src="__ROOT__/public/media/image/menu-toggler.png" alt="" />
+				</a>          
+				<!-- END RESPONSIVE MENU TOGGLER -->            
+
+				<!-- BEGIN TOP NAVIGATION MENU -->              
+
+				<ul class="nav pull-right">
+					<!-- BEGIN INBOX DROPDOWN -->
+
+					<li class="dropdown" id="header_inbox_bar">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-envelope"></i>
+						<span class="badge">{$agentMessageCount}</span>
+						</a>
+						<ul class="dropdown-menu extended inbox">
+							<li><p>您有 {$agentMessageCount} 条未读通知</p></li>
+						<empty name="agentMessage">
+							<li>	<a href="javascript:void(0)"> 暂 无 未 读 通 知 项 </a></li>
+						<else/>
+							<volist name="agentMessage" id="v">
+								<li>
+									<a href="{:U('Policy/notifyInfo',array('itemid'=>$v['itemid']))}">
+									<span class="subject">
+									<span class="from">{$v['title']}</span>
+									<span class="time">{$v['addtime']|date="Y-m-d H:i",###}</span>
+									</span>
+									<span class="message" style="text-indent: 2em;">{$v['content']|msubstr=0,20,'utf-8',true}</span>  
+									</a>
+								</li>
+							</volist>
+						</empty>
+							<li class="external">
+
+								<a href="{:U('Policy/notifyList')}">查看所有通知 <i class="m-icon-swapright"></i></a>
+
+							</li>
+
+						</ul>
+
+					</li>
+
+					<!-- END INBOX DROPDOWN -->
+
+					<!-- BEGIN TODO DROPDOWN -->
+
+					<li class="dropdown" id="header_task_bar">
+
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-tasks"></i>
+						<span class="badge">{$agentnewscount}</span>
+						</a>
+						<ul class="dropdown-menu extended inbox">
+							<li><p>七天内新增 {$agentnewscount} 条政策公告</p></li>
+						<empty name="agentnews">
+							<li>	<a href="javascript:void(0)"> 暂 无 政 策 公 告 </a></li>
+						<else/>
+							<volist name="agentnews" id="v">
+								<li>
+									<a href="{:U('Policy/notifyInfo',array('itemid'=>$v['itemid']))}">
+									<span class="subject">
+									<span class="from">{$v['title']}</span>
+									<span class="time">{$v['addtime']|date="Y-m-d",###}</span>
+									</span>
+									<span class="message" style="text-indent: 2em;">{$v['content']|msubstr=0,20,'utf-8',true}</span>  
+									</a>
+								</li>
+							</volist>
+						</empty>
+							<li class="external">
+								<a href="{:U('Policy/newsList')}">查看所有政策公告 <i class="m-icon-swapright"></i></a>
+							</li>
+
+						</ul>
+					</li>
+					<!-- END TODO DROPDOWN -->
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown user">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<img alt="" src="__ROOT__/public/media/image/avatar1_small.jpg" />
+						<span class="username">{:session('username')}</span>
+						<i class="icon-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="{:U('Agent/myInfo')}"><i class="icon-user"></i> 我的资料</a></li>
+							<li><a href="{:U('Agent/editPassword')}"><i class="icon-calendar"></i> 修改密码</a></li>
+							<li><a href="javascript:void(0)"><i class="icon-lock"></i> 关于系统</a></li>
+							<li><a href="{:U('Index/logout')}"><i class="icon-key"></i> 退出</a></li>
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+				<!-- END TOP NAVIGATION MENU --> 
+			</div>
+		</div>
+		<!-- END TOP NAVIGATION BAR -->
+	</div>
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		<!-- BEGIN SIDEBAR -->
+		<div class="page-sidebar nav-collapse collapse">
+			<!-- BEGIN SIDEBAR MENU -->        
+			<ul class="page-sidebar-menu">
+				<li style="margin-bottom:10px;">
+					<div class="sidebar-toggler hidden-phone">
+					<span class="m_title"><strong>功能选项</strong></span>
+					</div>
+				</li>
+				<!-------------------选中实例代码，请勿删除-------------------->
+				<li class="start <if condition="MODULE_NAME eq 'Agent'"> active </if>">
+					<a href="{:U('Index/Agent')}">
+					<i class="icon-home"></i> 
+					<span class="title">平台首页</span>
+					<if condition="MODULE_NAME eq 'Agent'">
+					<span class="selected"></span>
+					</if>
+					</a>
+				</li>
+
+               <!-------------------重大办和部门有用户管理权限-------------------->
+              <if condition="($_SESSION['usertype'] eq 1) or ($_SESSION['usertype'] eq 2)">
+				<li class="<if condition="MODULE_NAME eq 'Member'"> active </if>">
+					<a href="javascript:;">
+					<i class="icon-cogs"></i> 
+					<span class="title">用户管理</span>
+					<if condition="MODULE_NAME eq 'Member'">
+					<span class="selected"></span>
+					<else/>
+					<span class="arrow"></span>
+					</if>
+					</a>
+					<ul class="sub-menu">
+						<li <if condition="ACTION_NAME eq 'create'">class="active"</if> >
+						<a href="{:U('Member/create')}">创建用户</a></li>
+						<li <if condition="ACTION_NAME eq 'List'">class="active"</if> >
+						<a href="{:U('Member/List')}">用户管理</a></li>
+					</ul>
+				</li>
+               </if>
+
+				<li class="<if condition="MODULE_NAME eq 'Project'"> active </if>">
+					<a href="javascript:;">
+					<i class="icon-bookmark-empty"></i> 
+					<span class="title">项目管理</span>
+					<if condition="MODULE_NAME eq 'Project'">
+					<span class="selected"></span>
+					<else/>
+					<span class="arrow"></span>
+					</if>
+					</a>
+					<ul class="sub-menu">
+					   <!-------------------只有重大办才能发起项目-------------------->
+					   <if condition="$_SESSION['usertype'] eq 2">
+						<li <if condition="ACTION_NAME eq 'create'">class="active"</if> >
+						<a href="{:U('Project/create')}">添加项目</a></li>
+					   </if>
+						<li <if condition="ACTION_NAME eq 'List'">class="active"</if> >
+						<a href="{:U('Project/List')}">项目列表</a></li>
+					</ul>
+				</li>
+
+
+				<li class="<if condition="MODULE_NAME eq 'System'"> active </if>">
+					<a href="javascript:;">
+					<i class="icon-gift"></i> 
+					<span class="title">系统设置</span>
+					<if condition="MODULE_NAME eq 'System'">
+					<span class="selected"></span>
+					<else/>
+					<span class="arrow"></span>
+					</if>
+					</a>
+					<ul class="sub-menu">
+						<li <if condition="ACTION_NAME eq 'create'">class="active"</if> >
+						<a href="{:U('Agent/myInfo')}">我的资料</a></li>
+						<li <if condition="ACTION_NAME eq 'List'">class="active"</if> >
+						<a href="{:U('Agent/editPassword')}">修改密码</a></li>
+						<li <if condition="ACTION_NAME eq 'List'">class="active"</if> >
+						<a href="{:U('Index/logout')}">安全退出</a></li>
+					</ul>
+				</li>
+
+
+			</ul>
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
+		<!-- BEGIN PAGE -->
