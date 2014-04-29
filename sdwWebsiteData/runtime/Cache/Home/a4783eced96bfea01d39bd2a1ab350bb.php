@@ -187,14 +187,30 @@
 		</div>
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
-<!-- BEGIN PAGE LEVEL STYLES --> 
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="__ROOT__/public/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/style-metro.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+<link href="__ROOT__/public/media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="__ROOT__/public/media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css" href="__ROOT__/public/media/css/bootstrap-tree.css" />
+<!-- END PAGE LEVEL STYLES -->
+<link rel="shortcut icon" href="__ROOT__/public/media/image/favicon.ico" />
 <link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
 <link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
 <link href="__ROOT__/public/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
 <link href="__ROOT__/public/media/css/jqvmap.css" rel="stylesheet" type="text/css" /public/media="screen"/>
 <link href="__ROOT__/public/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" /public/media="screen"/>
-<!-- END PAGE LEVEL STYLES -->
-<!-- BEGIN PAGE -->
+
+<!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+
 <div class="page-content" style="min-height:560px;">
 	<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 	<div id="portlet-config" class="modal hide">
@@ -210,7 +226,7 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-				<div class="row-fluid">
+		<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
@@ -228,96 +244,66 @@
 								<span class="icon-angle-right"></span>
 							</li>
 							<li>
-								<a href="<?php echo U('Member/member_list');?>">用户管理</a>
-								<span class="icon-angle-right"></span>
-							</li>
-							<li>
-								<span>用户详情</span>
+								<a href="<?php echo U('Member/member_group');?>">用户组管理</a>
 							</li>
 				</ul>
+
+<style type="text/css">
+	.tree-toggle{ font-size:16px;}
+	.tree a{ font-size:16px; width:310px;}
+	.tree a:hover{ background-color: #fff;}
+	#icon-tool{ float:right;}
+</style>
 		<div class="portlet box blue">
 			<div class="portlet-title">
-				<div class="caption"><i class="icon-edit"></i>创建用户</div>
+				<div class="caption"><i class="icon-edit"></i>用户组列表</div>
 				<div class="tools"></div>
 			</div>
 			<div class="portlet-body">
-				<form action="" method="POST" name="member_create" id="member_create">
-					<table class="table table-striped table-hover table-bordered dataTable">
-						<tbody>
-							<tr class="odd">
-								<td style="width:200px;"><span class="font-title">用户名 <span style="color:red">*</span><span></td>
-								<td><input type="text" value="" name="username"></td>
+				<table class="table table-striped table-hover table-bordered dataTable">
+						<thead>
+							<tr role="row">
+								<th width="5%"><input type="checkbox" id="checkall" ></th>
+								<th width="8%" class="sorting_disabled">用户组ID</th>
+								<th width="20%" class="sorting">用户组名称</th>
+								<th width="30%"class="sorting">备注</th>
+								<th class="sorting">管理操作</th>
 							</tr>
-							<tr class="odd">
-								<td><span class="font-title">密码<span></td>
-								<td><input type="password" name="password" id="password"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">重复密码<span></td>
-								<td><input type="password" name="repassword"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">用户组<span></td>
-								<td>
-									<select name="usertype" id="usertype" onchange="addChild();">
-										<option>请选择用户组</option>
-										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
-									</select>
-									<select name="groupid" id="groupid" style="display:none">
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><span class="font-title">真实姓名<span></td>
-								<td><input type="text" value="<?php echo ($view["name"]); ?>" name="name" ></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">手机号<span></td>
-								<td><input type="text" value="<?php echo ($view["mobile"]); ?>" name="mobile"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">电话<span></td>
-								<td><input type="text" value="<?php echo ($view["phone"]); ?>" name="phone"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">Email<span></td>
-								<td><input type="text" value="<?php echo ($view["email"]); ?>" name="email"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">QQ<span></td>
-								<td><input type="text" value="<?php echo ($view["qq"]); ?>" name="qq"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">传真<span></td>
-								<td><input type="text" value="<?php echo ($view["fax"]); ?>" name="fax"></td>
-							</tr>
-							<tr>
-								<td><button class="btn green" name="submit" value="1">创建用户</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
-							</tr>
-							<input type="hidden" value="<?php echo ($view["userid"]); ?>" name="userid">
+						</thead>
+						<tbody role="alert" aria-live="polite" aria-relevant="all">
+							<?php if(is_array($list)): foreach($list as $key=>$vol): ?><tr class="odd">
+									<td><input type="checkbox" value="<?php echo ($vol["groupid"]); ?>" name="checkbox[]"></td>
+									<td class="  sorting_1"><?php echo ($vol["groupid"]); ?></td>
+									<td class=" ">
+										<?php if ($vol['pid']!=='0') { ?>
+											<?php echo ($vol["groupname"]); ?>
+										<?php }else{ ?>
+											<a href="<?php echo U('Member/member_group','id='); echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></a>
+										<?php } ?>
+									</td>
+									<td class=" "><?php echo ($vol["note"]); ?></td>
+									<td class=" ">
+										<?php if ($vol['pid']=='0') { ?>
+										<a style="color:#fff" class="label label-important" href="<?php echo U('Member/member_group','id='); echo ($vol["groupid"]); ?>">查看下属部门</a>
+										<a style="color:#fff" class="label label-info" href="<?php echo U('Member/member_list','type='); echo ($vol["groupid"]); ?>">查看会员</a>
+										<?php }else{ ?>
+										<a style="color:#fff" class="label label-info" href="<?php echo U('Member/member_list','gid='); echo ($vol["groupid"]); ?>">查看会员</a>
+										<?php } ?>
+										<a style="color:#fff" class="label label-warning" href="<?php echo U('Member/member_group_edit','id='); echo ($vol["groupid"]); ?>">编辑</a>
+										<a style="color:#fff" class="label label-Important" href="<?php echo U('Member/member_group_del','id='); echo ($vol["groupid"]); ?>" onclick="return confirm(this,'您确定删除吗？')" >删除</a>
+									</td>
+								</tr><?php endforeach; endif; ?>
 						</tbody>
 					</table>
-				</form>
-			</div>
+					<a class="btn blue" href="javascript:history.go(-1)">返回</a>
+					<a href="javascript:void(0)" class="btn red" id="delall" value="delall">删除所选的用户组</a>
+					<a href="<?php echo U('Member/member_group_create');?>" class="btn green">添加用户组</a>
+				
+				</div>
 		</div>
 	</div>
 <!-- END PAGE CONTAINER-->    
 </div>
-<script type="text/javascript">
-	function addChild(){
-		var gid = $("#usertype").val();
-		$.get("<?php echo U('Member/member_create');?>&gid="+gid,function(data){
-			if (data) {
-				$("#groupid").html(data);
-				$("#groupid").attr("style","");
-			}else{
-				$("#groupid").attr("style","display:none");
-			}		
-		});
-	}
-</script>
-
-
 <!-- END PAGE -->
 		<!-- END PAGE -->
 	</div>
@@ -351,204 +337,70 @@
 	<script src="__ROOT__/public/media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 	<!-- END CORE PLUGINS -->
 <!-- END BODY -->
-
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="__ROOT__/public/media/js/jquery.vmap.js" type="text/javascript"></script>   
-<script src="__ROOT__/public/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.vmap.world.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.vmap.europe.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.vmap.germany.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.vmap.usa.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.vmap.sampledata.js" type="text/javascript"></script>  
-<script src="__ROOT__/public/media/js/jquery.flot.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.flot.resize.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.pulsate.min.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/date.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/daterangepicker.js" type="text/javascript"></script>     
-<script src="__ROOT__/public/media/js/jquery.gritter.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/fullcalendar.min.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script> 
-<script src="__ROOT__/public/media/js/jquery.validate.min.js" type="text/javascript"></script>
-
-<!-- END PAGE LEVEL PLUGINS -->
-<!-- BEGIN PAGE LEVEL SCRIPTS -->
-<script src="__ROOT__/public/media/js/app.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL SCRIPTS -->  
-<!-- END JAVASCRIPTS -->
-<script>
-var Index = function () {
-	return {
-	//main function to initiate the module
-	init: function () {
-		App.addResponsiveHandler(function () {
-			Index.initCalendar();
-			jQuery('.vmaps').each(function () {
-				var map = jQuery(this);
-				map.width(map.parent().width());
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+	<!-- BEGIN CORE PLUGINS -->
+	<script src="__ROOT__/public/media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+	<script src="__ROOT__/public/media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+	<script src="__ROOT__/public/media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
+	<script src="__ROOT__/public/media/js/bootstrap.min.js" type="text/javascript"></script>
+	<!--[if lt IE 9]>
+	<script src="__ROOT__/public/media/js/excanvas.min.js"></script>
+	<script src="__ROOT__/public/media/js/respond.min.js"></script>  
+	<![endif]-->   
+	<script src="__ROOT__/public/media/js/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="__ROOT__/public/media/js/jquery.blockui.min.js" type="text/javascript"></script>  
+	<script src="__ROOT__/public/media/js/jquery.cookie.min.js" type="text/javascript"></script>
+	<script src="__ROOT__/public/media/js/jquery.uniform.min.js" type="text/javascript" ></script>
+	<!-- END CORE PLUGINS -->
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<script src="__ROOT__/public/media/js/bootstrap-tree.js"></script>
+	<!-- END PAGE LEVEL PLUGINS -->
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="__ROOT__/public/media/js/app.js"></script>
+	<script src="__ROOT__/public/media/js/ui-tree.js"></script>
+	<script src="__ROOT__/public/js/confirm.js" type="text/javascript"></script>       
+	<!-- END PAGE LEVEL SCRIPTS -->
+	<script>
+		jQuery(document).ready(function() {       
+			$("#del").click(function(){
+				alert('删除');
 			});
+		   // initiate layout and plugins
+		   App.init();
+		   UITree.init();
+
 		});
-	},
 
-	initCharts: function () {
-		if (!jQuery.plot) {
-			return;
-		}
+$(function(){
+    $("#checkall").click(function(){
+    	var sta = $("#checkall").prop('checked');
+        var c = $("input[name='checkbox[]']").prop('checked',sta);
+      // Update checkbox 狀態
+      if (jQuery().uniform) {
+        $.uniform.update("input[name='checkbox[]']");
+      }
+    });
 
-		function showTooltip(title, x, y, contents) {
-			$('<div id="tooltip" class="chart-tooltip"><div class="date">' + title + '<\/div><div class="label label-success">CTR: ' + x + '<\/div><div class="label label-important">Imp: ' + y + '<\/div><\/div>').css({
-				position: 'absolute',
-				display: 'none',
-				top: y - 100,
-				width: 75,
-				left: x - 40,
-				border: '0px solid #ccc',
-				padding: '2px 6px',
-				'background-color': '#fff',
-			}).appendTo("body").fadeIn(200);
-		}
-
-		<?php $i=0;$j=0;$m=0; ?>
-		var pageviews = [
-		<?php if(is_array($chartmemberlist)): foreach($chartmemberlist as $k=>$v): ?>[<?php echo ($i); ?>, <?php echo ($v); ?>]<?php if($i != '29' ): ?>,<?php endif; ?>
-		<?php $i++; endforeach; endif; ?>
-		];
-
-		var visitors = [
-		<?php if(is_array($chartorderlist)): foreach($chartorderlist as $k=>$v): ?>[<?php echo ($j); ?>, <?php echo ($v); ?>]<?php if($j != '29' ): ?>,<?php endif; ?>
-		<?php $j++; endforeach; endif; ?>
-		];
-
-		if ($('#site_statistics').size() != 0) {
-			$('#site_statistics_loading').hide();
-			$('#site_statistics_content').show();
-			var plot_statistics = $.plot($("#site_statistics"), [{
-				data: pageviews,
-				label: "净增会员数"
-			}, {
-				data: visitors,
-				label: "净增订单数"
-			}
-			], {
-				series: {
-					lines: {
-						show: true,
-						lineWidth: 2,
-						fill: true,
-						fillColor: {
-							colors: [{
-								opacity: 0.05
-							}, {
-								opacity: 0.01
-							}
-							]
-						}
-					},
-					points: {
-						show: true
-					},
-					shadowSize: 2
-				},
-				grid: {
-					hoverable: true,
-					clickable: true,
-					tickColor: "#eee",
-					borderWidth: 0
-				},
-				colors: ["#d12610", "#37b7f3", "#52e136"],
-				xaxis: {
-					ticks: [
-
-					<?php if(is_array($chartorderlist)): foreach($chartorderlist as $k=>$v): ?>[<?php echo ($m); ?>, "<?php echo ($k); ?>"]<?php if($i != '29' ): ?>,<?php endif; ?>
-					<?php $m++; endforeach; endif; ?>	
+    $("#delall").click(function(){
+        var ck_str = "";
+        var ck = document.getElementsByName("checkbox[]");
+        for (var i = ck.length - 1; i >= 0; i--) {
+            if (ck[i].checked) {
+                ck_str += ck[i].value+",";
+            }
+        }
+        if (ck_str == "") { return alert("请选择要删除的用户组。"); };
+        ck_str = ck_str.substr(0,ck_str.length-1);
+        $("#delall").attr("href","<?php echo U('Member/member_group_del','id=');?>"+ck_str);
+        return confirm(this,'您确定要删除所选用户组吗？');
+    });
+});
 
 
-					],
-					tickDecimals: 0
-				},
-				yaxis: {
-					ticks: 11,
-					tickDecimals: 0
-				}
-			});
 
-			var previousPoint = null;
-			$("#site_statistics").bind("plothover", function (event, pos, item) {
-				$("#x").text(pos.x.toFixed(2));
-				$("#y").text(pos.y.toFixed(2));
-				if (item) {
-					if (previousPoint != item.dataIndex) {
-						previousPoint = item.dataIndex;
-
-						$("#tooltip").remove();
-						var x = item.datapoint[0].toFixed(2),
-						y = item.datapoint[1].toFixed(2);
-
-                           // showTooltip(item.series.label,item.pageX , item.pageY, item.series.label + " of " + x + " = " + y);
-                       }
-                   } else {
-                   	$("#tooltip").remove();
-                   	previousPoint = null;
-                   }
-               });
-		}
-	},
-
-};
-
-}();
-
-jQuery(document).ready(function(){   
-	   App.init(); // initlayout and core plugins
-	   Index.initCharts(); // init index page's custom scripts
-
-		$("#member_create").validate({
-		        rules: {
-				   username: {
-				   required: true,
-				   minlength: 4,
-				   maxlength: 15,
-				   alnum: true
-			       },
-				   email: {
-				   required: true,
-				   email: true
-			       },
-				   password: {
-				    required: true,
-				    minlength: 5
-				   },
-				   repassword: {
-				    required: true,
-				    minlength: 5,
-				    equalTo: "#password"
-				   }
-				},
-				messages: {
-				   username: {
-				    required: "请输入用户名",
-				    minlength: "用户名长度为4-15之间",
-				    maxlength: "用户名长度为4-15之间",
-				    alnum: "请输入字母、数字或者下划线的组合"
-				   },
-				   email: {
-				    required: "请输入Email地址",
-				    email: "请输入正确的email地址"
-				   },
-				   password: {
-				    required: "请输入密码",
-				    minlength: jQuery.format("密码不能小于{0}个字 符")
-				   },
-				   repassword: {
-				    required: "请输入确认密码",
-				    minlength: "确认密码不能小于5个字符",
-				    equalTo: "两次输入密码不一致"
-				   }
-		        }
-		});
-	});
-
-</script>
+	</script>
+	<!-- END JAVASCRIPTS -->
+<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script></body>
 <!-- END BODY -->
-</body>
 </html>

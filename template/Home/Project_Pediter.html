@@ -1,0 +1,1356 @@
+<include file="Public:head"/>
+<style>
+input { width:130PX;}
+select{ width:137PX;}
+TABLE TD{ padding-left:5PX; padding-top:5PX; padding-right:5PX; color:#666666; font-size:14px;}
+.s-table caption{ height:40PX; line-height:40PX; background-color:#f5f5f5;border-top: 1px solid #CCCCCC;border-left: 1px solid #CCCCCC;border-right: 1px solid #CCCCCC; margin-top:20PX; font-size:14px; font-weight:bold}
+</style>
+<script>
+function Dsy() 
+{ 
+this.Items = {}; 
+} 
+Dsy.prototype.add = function(id,iArray) 
+{ 
+this.Items[id] = iArray; 
+} 
+Dsy.prototype.Exists = function(id) 
+{ 
+if(typeof(this.Items[id]) == "undefined") return false; 
+return true; 
+}
+ 
+function change(v){ 
+var str="0"; 
+for(i=0;i<v;i++){ str+=("_"+(document.getElementById(s[i]).selectedIndex-1));}; 
+var ss=document.getElementById(s[v]); 
+with(ss){ 
+length = 0; 
+options[0]=new Option(opt0[v],opt0[v]); 
+if(v && document.getElementById(s[v-1]).selectedIndex>0 || !v) 
+{ 
+if(dsy.Exists(str)){ 
+ar = dsy.Items[str]; 
+for(i=0;i<ar.length;i++)options[length]=new Option(ar[i],ar[i]); 
+if(v)options[1].selected = true; 
+} 
+} 
+if(++v<s.length){change(v);} 
+} 
+}
+ 
+var dsy = new Dsy();
+dsy.add("0",[<volist name="swclass" id="pso" key="k"><if condition="$k eq 1">"{$pso.groupname}"<else/>,"{$pso.groupname}"</if></volist>]);
+
+
+<volist name="shangwu_small" id="pp" key="kk"><!-- -->
+dsy.add("0_{$kk-1}",[
+<php>foreach($pp as $kkk=>$vvv){</php><if condition="$kkk eq 0">"{$vvv['name']}"<else/>,"{$vvv['name']}"</if><php>}</php>]
+);
+
+</volist>
+
+var s=["s1","s2"];
+var opt0 = ["指派部门","指派人"]; 
+function setup() 
+{ 
+for(i=0;i<s.length-1;i++) 
+document.getElementById(s[i]).onchange=new Function("change("+(i+1)+")"); 
+change(0); 
+} 
+</script>
+<!-- BEGIN PAGE LEVEL STYLES --> 
+	<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
+	<link href="__ROOT__/public/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/jqvmap.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="__ROOT__/public/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+<!-- END PAGE LEVEL STYLES -->
+		<!-- BEGIN PAGE -->
+<div class="page-content" style="min-height:560px;">
+	<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+	<div id="portlet-config" class="modal hide">
+		<div class="modal-header">
+			<button data-dismiss="modal" class="close" type="button"></button>
+			<h3>Widget Settings</h3>
+		</div>
+		<div class="modal-body">
+			Widget settings form goes here
+		</div>
+	</div>
+	<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+	<!-- BEGIN PAGE CONTAINER-->
+	<div class="container-fluid">
+		<!-- BEGIN PAGE HEADER-->
+		<include file="Public:welcome"/>
+		<ul class="breadcrumb">
+
+							<li>
+
+								<i class="icon-home"></i>
+
+								<a href="{:U('Index/Agent')}">平台首页</a> 
+
+								<span class="icon-angle-right"></span>
+
+							</li>
+
+							<li>
+
+								<a href="{:U('Project/PList')}">项目管理</a>
+
+								<span class="icon-angle-right"></span>
+
+							</li>
+
+							<li><a href="">项目修改</a></li>
+
+						</ul>
+		<!-- END PAGE HEADER-->
+		<div class="portlet box blue tabbable">
+
+							<div class="portlet-title">
+
+								<div class="caption">
+
+									<i class="icon-reorder"></i>
+
+									<span class="hidden-480">项目修改</span>
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body form">
+
+								<div class="tabbable portlet-tabs">
+
+									<ul class="nav nav-tabs">
+										<li class=""><a href="#portlet_tab3" data-toggle="tab"></a></li>
+
+										<li class=""><a href="#portlet_tab2" data-toggle="tab"></a></li>
+
+										<li class="active"><a href="#portlet_tab1" data-toggle="tab"></a></li>
+									</ul>
+
+									<div class="tab-content">
+<!--重大办操作地方 -->
+<if condition="$_SESSION['usertype'] eq 1">
+<form action="__APP__/Project/doedite" method="post" accept-charset="utf-8">
+
+    <div class="panes">
+        <div>
+        		<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC" class="s-table">
+						<caption>
+								基本信息
+								</caption>
+        				<tr >
+								<td width="12%">项目编码 <span class="required">*</span></td>
+        						<td colspan="2">{$projectedite.projectcoding}								</td>
+        						<td>项目类别<span class="required">*</span></td>
+        						<td width="120"><select name="citytype" id="citytype">
+								
+												<option value="0" <if condition="$projectedite.citytype eq 0"> selected="selected" </if>>区储备重大项目</option>
+												<option value="1" <if condition="$projectedite.citytype eq 1"> selected="selected" </if>>市重大项目库项目</option>
+										</select>								</td>
+        						<td width="10%">填报时间<span class="required">*</span></td>
+        						<td><input type="text" class="normal datepicker" name="created" value="{$projectedite.created}"  />												 </td>
+        						</tr>
+						<tr class="even">
+								<td>项目名称<span class="required">*</span></td>
+								<td colspan="4"><input type="text" class="normal" name="projectname" value="{$projectedite.projectname}" style="width:90%" /></td>
+								<td>责任主体<span class="required">*</span></td>
+								<td>
+								{$projectedite.bumen}　----　{$projectedite.bumenwho}<BR />
+           <select name="bumen" id="s1" style="width:93px;">
+            <option></option>
+          </select>
+          <select name="bumenwho" id="s2"  style="width:93px;">
+            <option></option>
+          </select> <font color="#0033FF" style="font-size:12px;">*留空则表示不修改</font>
+          <script language="javascript">setup();</script> 
+		  
+<select name="xiangzhen">
+<option value="">指派乡镇</option>
+<volist name="xzclass" id="pvo">
+<option value="{$pvo.groupname}" <eq name="projectedite.xiangzhen" value="$pvo.groupname">selected="selected"</eq> >{$pvo.groupname}</option>
+</volist>
+</select>
+								
+								</td>
+						</tr>
+						<tr>
+								<td rowspan="3">投资主体</td>
+								<td height="30" colspan="6" style="width: 8%"><input type="text" class="normal" name="invest_name" value="{$projectedite.invest_name}" style="width:70%"/></td>
+						</tr>
+						<tr>
+						  <td style="width: 8%">负责人</td>
+					      <td><input type="text" class="normal" name="invest_leader_name" value="{$projectedite.invest_leader_name}"/></td>
+					      <td style="width: 8%">职务</td>
+					      <td><input type="text" class="normal" name="invest_leader_position" value="{$projectedite.invest_leader_position}"/></td>
+					      <td>联系方式</td>
+					      <td><input type="text" class="normal" name="invest_leader_phone" value="{$projectedite.invest_leader_phone}"/></td>
+					  </tr>
+						<tr>
+						  <td style="width: 8%">联系人</td>
+					      <td><input type="text" class="normal" name="invest_linkman_name" value="{$projectedite.invest_linkman_name}"/></td>
+					      <td style="width: 8%">职务</td>
+					      <td><input type="text" class="normal" name="invest_linkman_position" value="{$projectedite.invest_linkman_position}"/></td>
+					      <td>联系方式</td>
+					      <td><input type="text" class="normal" name="invest_linkman_phone" value="{$projectedite.invest_linkman_phone}"/></td>
+					  </tr>
+						<tr  class="even">
+								<td>合作方</td>
+								<td colspan="2"><input type="text" class="normal" name="partner" style="width:70%" value="{$projectedite.partner}"/></td>
+						        <td>用地（亩）</td>
+						        <td><input type="text" class="normal" name="acreage" value="{$projectedite.acreage}"/></td>
+						        <td rowspan="3">被纳入省(部)
+重大项目计划名称</td>
+						        <td rowspan="3"><input type="text" class="normal" name="majorprojectname" value="{$projectedite.majorprojectname}"/></td>
+						</tr>
+						<tr>
+								<td>合作院所</td>
+								<td colspan="2"><input type="text" class="normal" name="cooperation" style="width:70%" value="{$projectedite.cooperation}"/></td>
+						        <td>建筑面积（平方米)</td>
+						        <td><input type="text" class="normal" name="areraged" value="{$projectedite.areraged}"/></td>
+				        </tr>
+		<tr><td>项目类别<span class="required">*</span></td>
+						<td  colspan="2"><input type="text" class="normal" name="projecttype" style="width:40%" value="{$projectedite.projecttype}"/>						</td>
+						<td>建设地点</td>
+						<td><input type="text" class="normal" name="address" value="{$projectedite.address}"/></td>
+				    </table>
+        </div>
+
+		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目建设内容</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="build_content" id="build_content" cols="45" rows="5" style="width:96%">{$projectedite.build_content}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>		
+		        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">投产后效益（预计）</font></caption>
+                <tr>
+                    <td>年产值
+(亿元)</td>
+                    <td>年销售
+(亿元)</td>
+                    <td>年利税
+(亿元)</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_output}" name="benefit_output"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_sell}" name="benefit_sell"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_taxes}" name="benefit_taxes"></td>
+
+                </tr>
+            </table></td>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">用工人数</font></caption>
+                <tr>
+                    <td>总数</td>
+                    <td>博士</td>
+                    <td>硕士</td>
+                    <td>本科</td>
+					<td>大专</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_all}" name="officeworker_all" disabled="disabled"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_doctor}" name="officeworker_doctor"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_master}" name="officeworker_master"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_bachelor}" name="officeworker_bachelor"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_undergraduate}" name="officeworker_undergraduate"></td>
+                </tr>
+            </table></td>
+		</tr>
+</table>
+
+        </div>
+        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目入库和市认定情况</caption>
+                <tr>
+                    <td>入库时间</td>
+                    <td>报市库时间</td>
+                    <td>认定新签约</td>
+                    <td>认定新开工</td>
+                    <td>认定新竣工</td>
+                    <td>认定新投产</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_time}" name="warehousing_time"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_citytime}" name="warehousing_citytime"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_newsignature}" name="warehousing_newsignature"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_startwork}" name="warehousing_startwork"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_newcompletion}" name="warehousing_newcompletion"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.warehousing_production}" name="warehousing_production"></td>
+                </tr>
+            </table>
+        </div>
+                <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>投资情况（亿元、亿美元）</caption>
+                <tr>
+                    <td>引资情况</td>
+                    <td>注册
+资本金</td>
+                    <td>计划
+总投资</td>
+                    <td>累计完成投资</td>
+                    <td>本年
+计划投资</td>
+                    <td>本年完成投资</td>
+					 <td>本月投资</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_type}" name="invest_type"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_signasset}" name="invest_signasset"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestall}" name="invest_planinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestall}" name="invest_completeinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestyear}" name="invest_planinvestyear"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestyear}" name="invest_completeinvestyear"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_month}" name="invest_month"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table id="addNode" class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0">
+                <caption>建设时序计划完成情况<span class="required">*</span></caption>
+                <tr>
+                    <td>节点</td>
+                    <td>完成拆迁</td>
+                    <td>开始打桩</td>
+                    <td>基础开挖</td>
+                    <td>正&nbsp;负&nbsp;零</td>
+                    <td>主体封顶</td>
+                    <td>主体竣工</td>
+                    <td>设备安装调试(装修)</td>
+                    <td>部分投产(营业)</td>
+                    <td colspan="2">全部投产(营业)</td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" class="normal" name="planname" value="默认">计划</td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_demolition}" name="build_plan_demolition"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_piling}" name="build_plan_piling"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_excavate}" name="build_plan_excavate"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_pmz}" name="build_plan_pmz"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_cap}" name="build_plan_cap"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_completion}" name="build_plan_completion"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_device}" name="build_plan_device"></td>
+                    <td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_plan_partproduction}" name="build_plan_partproduction"></td>
+                    <td colspan="2"><input type="text" style="width:87%" value="{$projectedite.build_plan_allproduction}" class="normal datepicker" name="build_plan_allproduction"></td>
+                </tr>
+<!--                                <tr>
+                		<td>实际</td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_demolition}" name="build_actual_demolition"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_piling}" name="build_actual_piling"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_excavate}" name="build_actual_excavate"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_pmz}" name="build_actual_pmz"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_cap}" name="build_actual_cap"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_completion}" name="build_actual_completion"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_device}" name="build_actual_device"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_partproduction}" name="build_actual_partproduction"></td>
+                		<td colspan="2"><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_allproduction}" name="build_actual_allproduction"></td>
+                </tr> -->
+                
+            </table>
+          <!--  <button id="addNodeButtom" type="button" class="btn green" style="margin-top: 10px;">添加节点</button> -->
+        </div>
+<!--        		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>详细进展</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+<textarea name="content_jinzhan" id="content_jinzhan" cols="45" rows="5" style="width:96%">{$projectedite.content_jinzhan}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>	
+				        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>存在问题</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+<textarea name="content_problem" id="content_problem" cols="45" rows="5" style="width:96%">{$projectedite.content_problem}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>
+		<div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>市领导挂钩情况</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+<textarea name="content_leader" id="content_leader" cols="45" rows="5" style="width:96%">{$projectedite.content_leader}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div> -->
+        <div>
+            <table class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" >
+                <caption>挂钩领导部门联系信息</caption>
+                <tr>
+                    <td rowspan="3" style="width: 10%">挂钩市领导</td>
+                    <td colspan="2" style="width: 15%">姓名</td>
+                    <td><input type="text" class="normal" name="city_leader_name" value="{$projectedite.city_leader_name}" ></td>
+                    <td style="width: 10%">职务</td>
+                    <td><input type="text" class="normal" name="city_leader_position" value="{$projectedite.city_leader_position}"></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">联系人</td>
+                    <td style="width: 10%">姓名</td>
+                    <td><input type="text" class="normal" name="city_contact_name" value="{$projectedite.city_contact_name}"></td>
+                    <td>职务</td>
+                    <td><input type="text" class="normal" name="city_contact_position" value="{$projectedite.city_contact_position}"></td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td><input type="text" class="normal" name="city_contact_phone" value="{$projectedite.city_contact_phone}"></td>
+                    <td>E-mail</td>
+                    <td><input type="text" class="normal" name="city_contact_mail" value="{$projectedite.city_contact_mail}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">市挂钩部门</td>
+                    <td>名称</td>
+                    <td><input type="text" class="normal" name="city_department" value="{$projectedite.city_department}"></td>
+                    <td>联系人职务</td>
+                    <td><input type="text" class="normal" name="city_department_position" value="{$projectedite.city_department_position}"></td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td><input type="text" class="normal" name="city_department_phone" value="{$projectedite.city_department_phone}"></td>
+                    <td>E-mail</td>
+                    <td><input type="text" class="normal" name="city_department_mail" value="{$projectedite.city_department_mail}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">责任主体</td>
+                    <td>名称</td>
+                    <td><input type="text" class="normal" name="responsibility_name" value="{$projectedite.responsibility_name}"></td>
+                    <td>职务</td>
+                    <td><input type="text" class="normal" name="responsibility_position" value="{$projectedite.responsibility_position}"></td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td><input type="text" class="normal" name="responsibility_phone" value="{$projectedite.responsibility_phone}"></td>
+                    <td>E-mail</td>
+                    <td><input type="text" class="normal" name="responsibility_mail" value="{$projectedite.responsibility_mail}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2" >责任主体重大办联系人</td>
+                    <td>名称</td>
+                    <td><input type="text" class="normal" name="officemajor_name" value="{$projectedite.officemajor_name}"></td>
+                    <td>职务</td>
+                    <td><input type="text" class="normal" name="officemajor_position" value="{$projectedite.officemajor_position}"></td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td><input type="text" class="normal" name="officemajor_phone" value="{$projectedite.officemajor_phone}"></td>
+                    <td>E-mail</td>
+                    <td><input type="text" class="normal" name="officemajor_mail" value="{$projectedite.officemajor_mail}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	<input type="hidden" class="normal" name="id" value="{$projectedite.id}">
+    <p style="line-height:40px; height:40px; color:#0066FF">*为必填项，其他项可以[修改项目]中添加，修改。</p>
+
+												<div class="form-actions">
+
+													<button type="submit" class="btn blue"><i class="icon-ok"></i> 修改</button>
+
+													<button type="button" class="btn">取消</button>
+
+												</div>
+</form>
+</if>
+<!--乡镇街道操作地方 -->
+<if condition="$_SESSION['usertype'] eq 3">
+<form action="__APP__/Project/xiangzhenedite" method="post" accept-charset="utf-8">
+
+    <div class="panes">
+        <div>
+        		<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC" class="s-table">
+						<caption>
+								基本信息
+								</caption>
+        				<tr >
+								<td width="12%">项目编码 <span class="required">*</span></td>
+        						<td colspan="2">{$projectedite.projectcoding}								</td>
+        						<td>项目类别<span class="required">*</span></td>
+        						<td width="120">
+								            <if condition="$projectedite.citytype eq 0">
+											区储备重大项目											</if>
+											<if condition="$projectedite.citytype eq 1">
+											市重大项目库项目											</if>								</td>
+        						<td width="10%">填报时间<span class="required">*</span></td>
+        						<td>{$projectedite.created}												 </td>
+        						</tr>
+						<tr class="even">
+								<td>项目名称<span class="required">*</span></td>
+								<td colspan="4">{$projectedite.projectname}</td>
+								<td>责任主体<span class="required">*</span></td>
+								<td>部门：{$projectedite.bumen}　----　{$projectedite.bumenwho}<BR />
+								乡镇：{$projectedite.xiangzhen}
+								</td>
+						</tr>
+						<tr>
+								<td rowspan="3">投资主体</td>
+								<td colspan="6" style="width: 8%"><input type="text" class="normal" name="invest_name" value="{$projectedite.invest_name}" style="width:70%"/></td>
+								</tr>
+						<tr>
+								<td style="width: 8%">负责人</td>
+								<td><input type="text" class="normal" name="invest_leader_name" value="{$projectedite.invest_leader_name}"/></td>
+								<td style="width: 8%">职务</td>
+								<td><input type="text" class="normal" name="invest_leader_position" value="{$projectedite.invest_leader_position}"/></td>
+								<td>联系方式</td>
+								<td><input type="text" class="normal" name="invest_leader_phone" value="{$projectedite.invest_leader_phone}"/></td>
+						</tr>
+						<tr>
+								<td style="width: 8%">联系人</td>
+								<td><input type="text" class="normal" name="invest_linkman_name" value="{$projectedite.invest_linkman_name}"/></td>
+								<td style="width: 8%">职务</td>
+								<td><input type="text" class="normal" name="invest_linkman_position" value="{$projectedite.invest_linkman_position}"/></td>
+								<td>联系方式</td>
+								<td><input type="text" class="normal" name="invest_linkman_phone" value="{$projectedite.invest_linkman_phone}"/></td>
+						</tr>
+						<tr  class="even">
+								<td>合作方</td>
+								<td colspan="2"><input type="text" class="normal" name="partner" style="width:90%" value="{$projectedite.partner}"/></td>
+								<td>用地
+（亩）</td>
+								<td><input type="text" class="normal" name="acreage" value="{$projectedite.acreage}"/></td>
+								<td rowspan="3">被纳入省(部)
+重大项目计划名称</td>
+								<td rowspan="3">{$projectedite.majorprojectname}</td>
+						</tr>
+						<tr>
+								<td rowspan="2">合作院所</td>
+								<td colspan="2" rowspan="2"><input type="text" class="normal" name="cooperation" style="width:90%" value="{$projectedite.cooperation}"/></td>
+								<td>建筑面积（平方米)</td>
+								<td><input type="text" class="normal" name="areraged" value="{$projectedite.areraged}"/></td>
+								</tr>
+		<tr><td>建设
+地点</td>
+						<td><input type="text" class="normal" name="address" value="{$projectedite.address}"/></td>
+						</table>
+        </div>
+		
+        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目建设内容</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="build_content" id="build_content" cols="45" rows="5" style="width:96%">{$projectedite.build_content}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>		
+		        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">投产后效益（预计）</font></caption>
+                <tr>
+                    <td>年产值
+(亿元)</td>
+                    <td>年销售
+(亿元)</td>
+                    <td>年利税
+(亿元)</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_output}" name="benefit_output"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_sell}" name="benefit_sell"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_taxes}" name="benefit_taxes"></td>
+
+                </tr>
+            </table></td>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">用工人数</font></caption>
+                <tr>
+                    <td>总数</td>
+                    <td>博士</td>
+                    <td>硕士</td>
+                    <td>本科</td>
+					<td>大专</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_all}" name="officeworker_all" disabled="disabled"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_doctor}" name="officeworker_doctor"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_master}" name="officeworker_master"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_bachelor}" name="officeworker_bachelor"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_undergraduate}" name="officeworker_undergraduate"></td>
+                </tr>
+            </table></td>
+		</tr>
+</table>
+
+        </div>
+		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目入库和市认定情况</caption>
+                <tr>
+                    <td>入库时间</td>
+                    <td>报市库时间</td>
+                    <td>认定新签约</td>
+                    <td>认定新开工</td>
+                    <td>认定新竣工</td>
+                    <td>认定新投产</td>
+                </tr>
+                <tr>
+                    <td>{$projectedite.warehousing_time}</td>
+                    <td>{$projectedite.warehousing_citytime}</td>
+                    <td>{$projectedite.warehousing_newsignature}</td>
+                    <td>{$projectedite.warehousing_startwork}</td>
+                    <td>{$projectedite.warehousing_newcompletion}</td>
+                    <td>{$projectedite.warehousing_production}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>投资情况（亿元、亿美元）</caption>
+                <tr>
+                    <td>引资情况</td>
+                    <td>注册
+资本金</td>
+                    <td>计划
+总投资</td>
+                    <td>累计完成投资</td>
+                    <td>本年
+计划投资</td>
+                    <td>本年完成投资</td>
+					 <td>本月投资</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_type}" name="invest_type"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_signasset}" name="invest_signasset"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestall}" name="invest_planinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestall}" name="invest_completeinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestyear}" name="invest_planinvestyear"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestyear}" name="invest_completeinvestyear"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_month}" name="invest_month"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table id="addNode" class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0">
+                <caption>建设时序计划完成情况<span class="required">*</span></caption>
+                <tr>
+                    <td>节点</td>
+                    <td>完成拆迁</td>
+                    <td>开始打桩</td>
+                    <td>基础开挖</td>
+                    <td>正&nbsp;负&nbsp;零</td>
+                    <td>主体封顶</td>
+                    <td>主体竣工</td>
+                    <td>设备安装调试(装修)</td>
+                    <td>部分投产(营业)</td>
+                    <td colspan="2">全部投产(营业)</td>
+                </tr>
+                <tr>
+                    <td>计划</td>
+                    <td>{$projectedite.build_plan_demolition}</td>
+                    <td>{$projectedite.build_plan_piling}</td>
+                    <td>{$projectedite.build_plan_excavate}</td>
+                    <td>{$projectedite.build_plan_pmz}</td>
+                    <td>{$projectedite.build_plan_cap}</td>
+                    <td>{$projectedite.build_plan_completion}</td>
+                    <td>{$projectedite.build_plan_device}</td>
+                    <td>{$projectedite.build_plan_partproduction}</td>
+                    <td colspan="2">{$projectedite.build_plan_allproduction}</td>
+                </tr>
+<!--                <tr>
+                		<td>实际</td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_demolition}" name="build_actual_demolition"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_piling}" name="build_actual_piling"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_excavate}" name="build_actual_excavate"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_pmz}" name="build_actual_pmz"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_cap}" name="build_actual_cap"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_completion}" name="build_actual_completion"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_device}" name="build_actual_device"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_partproduction}" name="build_actual_partproduction"></td>
+                		<td colspan="2"><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_allproduction}" name="build_actual_allproduction"></td>
+                </tr> -->
+            </table>
+          <!--  <button id="addNodeButtom" type="button" class="btn green" style="margin-top: 10px;">添加节点</button> -->
+        </div>
+<!--		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>详细进展</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_jinzhan" id="content_jinzhan" cols="45" rows="5" style="width:96%">{$projectedite.content_jinzhan}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>	
+				        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>存在问题</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_problem" id="content_problem" cols="45" rows="5" style="width:96%">{$projectedite.content_problem}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>
+		<div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>市领导挂钩情况</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_leader" id="content_leader" cols="45" rows="5" style="width:96%">{$projectedite.content_leader}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div> -->
+        <div>
+            <table class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" >
+                <caption>挂钩领导部门联系信息</caption>
+                <tr>
+                    <td rowspan="3" style="width: 10%">挂钩市领导</td>
+                    <td colspan="2" style="width: 15%">姓名</td>
+                    <td>{$projectedite.city_leader_name}</td>
+                    <td style="width: 10%">职务</td>
+                    <td>{$projectedite.city_leader_position}</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">联系人</td>
+                    <td style="width: 10%">姓名</td>
+                    <td>{$projectedite.city_contact_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.city_contact_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.city_contact_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.city_contact_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">市挂钩部门</td>
+                    <td>名称</td>
+                    <td>{$projectedite.city_department}</td>
+                    <td>联系人职务</td>
+                    <td>{$projectedite.city_department_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.city_department_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.city_department_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">责任主体</td>
+                    <td>名称</td>
+                    <td>{$projectedite.responsibility_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.responsibility_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.responsibility_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.responsibility_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2" >责任主体重大办联系人</td>
+                    <td>名称</td>
+                    <td>{$projectedite.officemajor_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.officemajor_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.officemajor_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.officemajor_mail}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	<input type="hidden" class="normal" name="id" value="{$projectedite.id}">
+   
+
+												<div class="form-actions">
+
+													<button type="submit" class="btn blue"><i class="icon-ok"></i> 修改</button>
+
+													<button type="button" class="btn">取消</button>
+
+												</div>
+</form>
+</if>
+
+
+
+
+
+<!--部门操作地方 -->
+<if condition="$_SESSION['usertype'] eq 2">
+<form action="__APP__/Project/bumenedite" method="post" accept-charset="utf-8">
+
+    <div class="panes">
+        <div>
+        		<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC" class="s-table">
+						<caption>
+								基本信息
+								</caption>
+        				<tr >
+								<td width="12%">项目编码 <span class="required">*</span></td>
+        						<td colspan="2">{$projectedite.projectcoding}								</td>
+        						<td>类别<span class="required">*</span></td>
+        						<td width="120">
+								            <if condition="$projectedite.citytype eq 0">
+											区储备重大项目											</if>
+											<if condition="$projectedite.citytype eq 1">
+											市重大项目库项目											</if>								</td>
+        						<td width="10%">填报时间<span class="required">*</span></td>
+        						<td>{$projectedite.created}												 </td>
+        						</tr>
+						<tr class="even">
+								<td>项目名称<span class="required">*</span></td>
+								<td colspan="4">{$projectedite.projectname}</td>
+								<td>责任主体<span class="required">*</span></td>
+								<td>部门：{$projectedite.bumen}　----　{$projectedite.bumenwho}<BR />
+								乡镇：{$projectedite.xiangzhen}</td>
+						</tr>
+						<tr>
+								<td rowspan="3">投资主体</td>
+								<td colspan="6" style="width: 8%"><input type="text" class="normal" name="invest_name" value="{$projectedite.invest_name}" style="width:70%"/></td>
+								</tr>
+						<tr>
+								<td style="width: 8%">负责人</td>
+								<td><input type="text" class="normal" name="invest_leader_name" value="{$projectedite.invest_leader_name}"/></td>
+								<td style="width: 8%">职务</td>
+								<td><input type="text" class="normal" name="invest_leader_position" value="{$projectedite.invest_leader_position}"/></td>
+								<td>联系方式</td>
+								<td><input type="text" class="normal" name="invest_leader_phone" value="{$projectedite.invest_leader_phone}"/></td>
+						</tr>
+						<tr>
+								<td style="width: 8%">联系人</td>
+								<td><input type="text" class="normal" name="invest_linkman_name" value="{$projectedite.invest_linkman_name}"/></td>
+								<td style="width: 8%">职务</td>
+								<td><input type="text" class="normal" name="invest_linkman_position" value="{$projectedite.invest_linkman_position}"/></td>
+								<td>联系方式</td>
+								<td><input type="text" class="normal" name="invest_linkman_phone" value="{$projectedite.invest_linkman_phone}"/></td>
+						</tr>
+						<tr  class="even">
+								<td>合作方</td>
+								<td colspan="2"><input type="text" class="normal" name="partner" style="width:90%" value="{$projectedite.partner}"/></td>
+								<td>用地
+（亩）</td>
+								<td><input type="text" class="normal" name="acreage" value="{$projectedite.acreage}"/></td>
+								<td rowspan="3">被纳入省(部)
+重大项目计划名称</td>
+								<td rowspan="3">{$projectedite.majorprojectname}</td>
+						</tr>
+						<tr>
+								<td rowspan="2">合作院所</td>
+								<td colspan="2" rowspan="2"><input type="text" class="normal" name="cooperation" style="width:90%" value="{$projectedite.cooperation}"/></td>
+								<td>建筑面积（平方米)</td>
+								<td><input type="text" class="normal" name="areraged" value="{$projectedite.areraged}"/></td>
+								</tr>
+		<tr><td>建设
+地点</td>
+						<td><input type="text" class="normal" name="address" value="{$projectedite.address}"/></td>
+						</table>
+        </div>
+		
+        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目建设内容</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="build_content" id="build_content" cols="45" rows="5" style="width:96%">{$projectedite.build_content}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>		
+		        <div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">投产后效益（预计）</font></caption>
+                <tr>
+                    <td>年产值
+(亿元)</td>
+                    <td>年销售
+(亿元)</td>
+                    <td>年利税
+(亿元)</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_output}" name="benefit_output"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_sell}" name="benefit_sell"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.benefit_taxes}" name="benefit_taxes"></td>
+
+                </tr>
+            </table></td>
+				<td width="50%"><table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                 <caption><font color="#000000">用工人数</font></caption>
+                <tr>
+                    <td>总数</td>
+                    <td>博士</td>
+                    <td>硕士</td>
+                    <td>本科</td>
+					<td>大专</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_all}" name="officeworker_all" disabled="disabled"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_doctor}" name="officeworker_doctor"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_master}" name="officeworker_master"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_bachelor}" name="officeworker_bachelor"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.officeworker_undergraduate}" name="officeworker_undergraduate"></td>
+                </tr>
+            </table></td>
+		</tr>
+</table>
+
+        </div>
+		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>项目入库和市认定情况</caption>
+                <tr>
+                    <td>入库时间</td>
+                    <td>报市库时间</td>
+                    <td>认定新签约</td>
+                    <td>认定新开工</td>
+                    <td>认定新竣工</td>
+                    <td>认定新投产</td>
+                </tr>
+                <tr>
+                    <td>{$projectedite.warehousing_time}</td>
+                    <td>{$projectedite.warehousing_citytime}</td>
+                    <td>{$projectedite.warehousing_newsignature}</td>
+                    <td>{$projectedite.warehousing_startwork}</td>
+                    <td>{$projectedite.warehousing_newcompletion}</td>
+                    <td>{$projectedite.warehousing_production}</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>投资情况（亿元、亿美元）</caption>
+                <tr>
+                    <td>引资情况</td>
+                    <td>注册
+资本金</td>
+                    <td>计划
+总投资</td>
+                    <td>累计完成投资</td>
+                    <td>本年
+计划投资</td>
+                    <td>本年完成投资</td>
+					 <td>本月投资</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_type}" name="invest_type"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_signasset}" name="invest_signasset"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestall}" name="invest_planinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestall}" name="invest_completeinvestall"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_planinvestyear}" name="invest_planinvestyear"></td>
+                    <td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_completeinvestyear}" name="invest_completeinvestyear"></td>
+					<td><input type="text" style="width:87%" class="normal" value="{$projectedite.invest_month}" name="invest_month"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table id="addNode" class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0">
+                <caption>建设时序计划完成情况<span class="required">*</span></caption>
+                <tr>
+                    <td>节点</td>
+                    <td>完成拆迁</td>
+                    <td>开始打桩</td>
+                    <td>基础开挖</td>
+                    <td>正&nbsp;负&nbsp;零</td>
+                    <td>主体封顶</td>
+                    <td>主体竣工</td>
+                    <td>设备安装调试(装修)</td>
+                    <td>部分投产(营业)</td>
+                    <td colspan="2">全部投产(营业)</td>
+                </tr>
+                <tr>
+                    <td>计划</td>
+                    <td>{$projectedite.build_plan_demolition}</td>
+                    <td>{$projectedite.build_plan_piling}</td>
+                    <td>{$projectedite.build_plan_excavate}</td>
+                    <td>{$projectedite.build_plan_pmz}</td>
+                    <td>{$projectedite.build_plan_cap}</td>
+                    <td>{$projectedite.build_plan_completion}</td>
+                    <td>{$projectedite.build_plan_device}</td>
+                    <td>{$projectedite.build_plan_partproduction}</td>
+                    <td colspan="2">{$projectedite.build_plan_allproduction}</td>
+                </tr>
+<!--                <tr>
+                		<td>实际</td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_demolition}" name="build_actual_demolition"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_piling}" name="build_actual_piling"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_excavate}" name="build_actual_excavate"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_pmz}" name="build_actual_pmz"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_cap}" name="build_actual_cap"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_completion}" name="build_actual_completion"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_device}" name="build_actual_device"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_partproduction}" name="build_actual_partproduction"></td>
+                		<td colspan="2"><input type="text" style="width:87%" class="normal datepicker" value="{$projectedite.build_actual_allproduction}" name="build_actual_allproduction"></td>
+                </tr> -->
+            </table>
+          <!--  <button id="addNodeButtom" type="button" class="btn green" style="margin-top: 10px;">添加节点</button> -->
+        </div>
+<!--		        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>详细进展</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_jinzhan" id="content_jinzhan" cols="45" rows="5" style="width:96%">{$projectedite.content_jinzhan}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>	
+				        <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>存在问题</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_problem" id="content_problem" cols="45" rows="5" style="width:96%">{$projectedite.content_problem}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>
+		<div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>市领导挂钩情况</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_leader" id="content_leader" cols="45" rows="5" style="width:96%">{$projectedite.content_leader}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div> -->
+        <div>
+            <table class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" >
+                <caption>挂钩领导部门联系信息</caption>
+                <tr>
+                    <td rowspan="3" style="width: 10%">挂钩市领导</td>
+                    <td colspan="2" style="width: 15%">姓名</td>
+                    <td>{$projectedite.city_leader_name}</td>
+                    <td style="width: 10%">职务</td>
+                    <td>{$projectedite.city_leader_position}</td>
+                </tr>
+                <tr>
+                    <td rowspan="2">联系人</td>
+                    <td style="width: 10%">姓名</td>
+                    <td>{$projectedite.city_contact_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.city_contact_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.city_contact_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.city_contact_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">市挂钩部门</td>
+                    <td>名称</td>
+                    <td>{$projectedite.city_department}</td>
+                    <td>联系人职务</td>
+                    <td>{$projectedite.city_department_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.city_department_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.city_department_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2">责任主体</td>
+                    <td>名称</td>
+                    <td>{$projectedite.responsibility_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.responsibility_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.responsibility_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.responsibility_mail}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" rowspan="2" >责任主体重大办联系人</td>
+                    <td>名称</td>
+                    <td>{$projectedite.officemajor_name}</td>
+                    <td>职务</td>
+                    <td>{$projectedite.officemajor_position}</td>
+                </tr>
+                <tr>
+                    <td>联系方式</td>
+                    <td>{$projectedite.officemajor_phone}</td>
+                    <td>E-mail</td>
+                    <td>{$projectedite.officemajor_mail}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	<input type="hidden" class="normal" name="id" value="{$projectedite.id}">
+   
+
+												<div class="form-actions">
+
+													<button type="submit" class="btn blue"><i class="icon-ok"></i> 修改</button>
+
+													<button type="button" class="btn">取消</button>
+
+												</div>
+</form>
+</if>
+
+
+
+
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+	</div>
+	<!-- END PAGE CONTAINER-->    
+</div>
+<!-- END PAGE -->
+<include file="Public:footer"/>
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="__ROOT__/public/media/js/jquery.vmap.js" type="text/javascript"></script>   
+<script src="__ROOT__/public/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.vmap.sampledata.js" type="text/javascript"></script>  
+<script src="__ROOT__/public/media/js/jquery.flot.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.flot.resize.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/date.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/daterangepicker.js" type="text/javascript"></script>     
+<script src="__ROOT__/public/media/js/jquery.gritter.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/fullcalendar.min.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
+<script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script>  
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="__ROOT__/public/media/js/app.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->  
+<!-- END JAVASCRIPTS -->
+<script>
+var Index = function () {
+return {
+	//main function to initiate the module
+	init: function () {
+		App.addResponsiveHandler(function () {
+			Index.initCalendar();
+			jQuery('.vmaps').each(function () {
+				var map = jQuery(this);
+				map.width(map.parent().width());
+			});
+		});
+	},
+
+initCharts: function () {
+	if (!jQuery.plot) {
+		return;
+	}
+	
+function showTooltip(title, x, y, contents) {
+	$('<div id="tooltip" class="chart-tooltip"><div class="date">' + title + '<\/div><div class="label label-success">CTR: ' + x + '<\/div><div class="label label-important">Imp: ' + y + '<\/div><\/div>').css({
+		position: 'absolute',
+		display: 'none',
+		top: y - 100,
+		width: 75,
+		left: x - 40,
+		border: '0px solid #ccc',
+		padding: '2px 6px',
+		'background-color': '#fff',
+	}).appendTo("body").fadeIn(200);
+}
+
+<php>$i=0;$j=0;$m=0;</php>
+var pageviews = [
+<foreach name="chartmemberlist" item="v" key="k">
+	[{$i}, {$v}]<if condition="$i neq '29' ">,</if>
+<php>$i++;</php>
+</foreach>
+];
+
+var visitors = [
+<foreach name="chartorderlist" item="v" key="k">
+	[{$j}, {$v}]<if condition="$j neq '29' ">,</if>
+<php>$j++;</php>
+</foreach>
+];
+			
+            if ($('#site_statistics').size() != 0) {
+                $('#site_statistics_loading').hide();
+                $('#site_statistics_content').show();
+                var plot_statistics = $.plot($("#site_statistics"), [{
+                        data: pageviews,
+                        label: "净增会员数"
+                    }, {
+                        data: visitors,
+                        label: "净增订单数"
+                    }
+                ], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2,
+                            fill: true,
+                            fillColor: {
+                                colors: [{
+                                        opacity: 0.05
+                                    }, {
+                                        opacity: 0.01
+                                    }
+                                ]
+                            }
+                        },
+                        points: {
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#eee",
+                        borderWidth: 0
+                    },
+                    colors: ["#d12610", "#37b7f3", "#52e136"],
+					xaxis: {
+                        ticks: [
+						
+					<foreach name="chartorderlist" item="v" key="k">				
+						[{$m}, "{$k}"]<if condition="$i neq '29' ">,</if>
+					<php>$m++;</php>	
+					</foreach>	
+						
+						
+						],
+                        tickDecimals: 0
+                    },
+                    yaxis: {
+                        ticks: 11,
+                        tickDecimals: 0
+                    }
+                });
+
+                var previousPoint = null;
+                $("#site_statistics").bind("plothover", function (event, pos, item) {
+                    $("#x").text(pos.x.toFixed(2));
+                    $("#y").text(pos.y.toFixed(2));
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+                            previousPoint = item.dataIndex;
+
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0].toFixed(2),
+                                y = item.datapoint[1].toFixed(2);
+
+                           // showTooltip(item.series.label,item.pageX , item.pageY, item.series.label + " of " + x + " = " + y);
+                        }
+                    } else {
+                        $("#tooltip").remove();
+                        previousPoint = null;
+                    }
+                });
+            }
+        },
+		
+    };
+
+}();
+
+jQuery(document).ready(function(){   
+	   App.init(); // initlayout and core plugins
+	   Index.initCharts(); // init index page's custom scripts
+});
+</script>
+<!-- END BODY -->
+<script type="text/javascript">
+    var counttr = 0;
+    $(function() {
+
+//        延迟绑定datepicker
+        $("body").delegate(".datepicker", "focusin", function(){
+            $(this).datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+        $('select[name="base[responsibility]"]').change(function(){
+            $code =  $("input[name='base[projectcoding]']").val().replace(/[a-zA-Z]+/,'');
+            $("input[name='base[projectcoding]']").val($(this).val() + $code ) ;
+            $("input[name='base[projectcoding]']").siblings('span').html($(this).val() + $code);
+        });
+        $('#addNodeButtom').click(function(){
+            counttr++;
+            var node = '<tr>' +
+                            '<td><input type="hidden" style="width:87%"  name="build[' + counttr+ '][name]">计划<\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_demolition]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_piling]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_excavate]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_pmz]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_cap]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_completion]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_device]"><\/td>' +
+                            '<td><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_partproduction]"><\/td>' +
+                            '<td width="100px"><input type="text" style="width:87%" name="build[' + counttr+ '][build_plan_allproduction]"><\/td>' +
+                            '<td width="10px;"><span class="deleteNode">X<\/span><\/td> ' +
+                        ' <\/tr>';
+            $('#addNode').append(node);
+        });
+
+        $('#addNode').on('click','.deleteNode', function(){
+            if(confirm('确定删除')){
+                $(this).parent().parent().remove();
+            }
+        });
+
+
+        $('#createproject').submit(function(){
+            if($('select[name="base[responsibility]"]').val() == ''){
+                alert('请选择责任主体');
+                return false;
+            }
+
+            $('input[type=submit]').attr({disabled:"disabled",value:'loading..'});
+            $.post(
+                $(this).attr("action"),
+                $(this).serialize(),
+                function(data){
+                    if( data == '')
+                        location.href = '/project/list/';
+
+                    $('#error').html(data);
+                    $('input[type=submit]').attr({value:'提交'}).removeAttr('disabled');
+                }
+            );
+
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>

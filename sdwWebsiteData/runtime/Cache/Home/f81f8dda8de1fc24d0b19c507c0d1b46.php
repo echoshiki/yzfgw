@@ -52,11 +52,12 @@
 					<li class="dropdown" id="header_inbox_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-envelope"></i>
-						<span class="badge"><?php echo ($agentMessageCount); ?></span>
+						<span class="badge">4</span>
 						</a>
 						<ul class="dropdown-menu extended inbox">
-							<li><p>您有 <?php echo ($agentMessageCount); ?> 条未读通知</p></li>
-						<?php if(empty($agentMessage)): ?><li>	<a href="javascript:void(0)"> 暂 无 未 读 通 知 项 </a></li>
+							<li><p>您有 4 条未完善项目</p></li>
+							
+						<?php if(empty($agentMessage)): ?><li>	<a href="javascript:void(0)"> 暂 无 未 完 善 项 目 </a></li>
 						<?php else: ?>
 							<?php if(is_array($agentMessage)): $i = 0; $__LIST__ = $agentMessage;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li>
 									<a href="<?php echo U('Policy/notifyInfo',array('itemid'=>$v['itemid']));?>">
@@ -67,9 +68,10 @@
 									<span class="message" style="text-indent: 2em;"><?php echo (msubstr($v['content'],0,20,'utf-8',true)); ?></span>  
 									</a>
 								</li><?php endforeach; endif; else: echo "" ;endif; endif; ?>
+						
 							<li class="external">
 
-								<a href="<?php echo U('Policy/notifyList');?>">查看所有通知 <i class="m-icon-swapright"></i></a>
+								<a href="<?php echo U('Policy/notifyList');?>">查看所有项目 <i class="m-icon-swapright"></i></a>
 
 							</li>
 
@@ -79,34 +81,6 @@
 
 					<!-- END INBOX DROPDOWN -->
 
-					<!-- BEGIN TODO DROPDOWN -->
-
-					<li class="dropdown" id="header_task_bar">
-
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-tasks"></i>
-						<span class="badge"><?php echo ($agentnewscount); ?></span>
-						</a>
-						<ul class="dropdown-menu extended inbox">
-							<li><p>七天内新增 <?php echo ($agentnewscount); ?> 条政策公告</p></li>
-						<?php if(empty($agentnews)): ?><li>	<a href="javascript:void(0)"> 暂 无 政 策 公 告 </a></li>
-						<?php else: ?>
-							<?php if(is_array($agentnews)): $i = 0; $__LIST__ = $agentnews;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li>
-									<a href="<?php echo U('Policy/notifyInfo',array('itemid'=>$v['itemid']));?>">
-									<span class="subject">
-									<span class="from"><?php echo ($v['title']); ?></span>
-									<span class="time"><?php echo (date("Y-m-d",$v['addtime'])); ?></span>
-									</span>
-									<span class="message" style="text-indent: 2em;"><?php echo (msubstr($v['content'],0,20,'utf-8',true)); ?></span>  
-									</a>
-								</li><?php endforeach; endif; else: echo "" ;endif; endif; ?>
-							<li class="external">
-								<a href="<?php echo U('Policy/newsList');?>">查看所有政策公告 <i class="m-icon-swapright"></i></a>
-							</li>
-
-						</ul>
-					</li>
-					<!-- END TODO DROPDOWN -->
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -176,10 +150,10 @@
 					</a>
 					<ul class="sub-menu">
 					   <!-------------------只有重大办才能发起项目-------------------->
-					   <?php if($_SESSION['usertype'] == 2): ?><li <?php if(ACTION_NAME == 'create'): ?>class="active"<?php endif; ?> >
+					   <?php if($_SESSION['usertype'] == 1): ?><li <?php if(ACTION_NAME == 'create'): ?>class="active"<?php endif; ?> >
 						<a href="<?php echo U('Project/create');?>">添加项目</a></li><?php endif; ?>
-						<li <?php if(ACTION_NAME == 'List'): ?>class="active"<?php endif; ?> >
-						<a href="<?php echo U('Project/List');?>">项目列表</a></li>
+						<li <?php if(ACTION_NAME == 'PList'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Project/PList');?>">项目列表</a></li>
 					</ul>
 				</li>
 

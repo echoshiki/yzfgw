@@ -22,16 +22,7 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-		<div class="row-fluid">
-			<div class="span12">
-				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-				<h3 class="page-title"><small>欢迎你！</small>{:session('username')} 　<small>您的登陆身份是：
-				<if condition="$_SESSION['usertype'] eq 2">重大办</if>
-				<if condition="$_SESSION['usertype'] eq 1">部门</if>
-				<if condition="$_SESSION['usertype'] eq 3">乡镇街道</if>
-				</small></h3>
-			</div>
-		</div>
+		<include file="Public:welcome"/>
 		<!-- END PAGE HEADER-->
 		<div id="dashboard">
 			<!-- BEGIN DASHBOARD STATS -->

@@ -85,7 +85,7 @@
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<img alt="" src="__ROOT__/public/media/image/avatar1_small.jpg" />
-						<span class="username"><?php echo session('name');?></span>
+						<span class="username"><?php echo session('username');?></span>
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
@@ -193,62 +193,6 @@ select{ width:137PX;}
 TABLE TD{ padding-left:5PX; padding-top:5PX; padding-right:5PX; color:#666666}
 .s-table caption{ height:40PX; line-height:40PX; background-color:#f5f5f5;border-top: 1px solid #CCCCCC;border-left: 1px solid #CCCCCC;border-right: 1px solid #CCCCCC; margin-top:20PX; font-size:14px; font-weight:bold}
 </style>
-<script>
-function Dsy() 
-{ 
-this.Items = {}; 
-} 
-Dsy.prototype.add = function(id,iArray) 
-{ 
-this.Items[id] = iArray; 
-} 
-Dsy.prototype.Exists = function(id) 
-{ 
-if(typeof(this.Items[id]) == "undefined") return false; 
-return true; 
-}
- 
-function change(v){ 
-var str="0"; 
-for(i=0;i<v;i++){ str+=("_"+(document.getElementById(s[i]).selectedIndex-1));}; 
-var ss=document.getElementById(s[v]); 
-with(ss){ 
-length = 0; 
-options[0]=new Option(opt0[v],opt0[v]); 
-if(v && document.getElementById(s[v-1]).selectedIndex>0 || !v) 
-{ 
-if(dsy.Exists(str)){ 
-ar = dsy.Items[str]; 
-for(i=0;i<ar.length;i++)options[length]=new Option(ar[i],ar[i]); 
-if(v)options[1].selected = true; 
-} 
-} 
-if(++v<s.length){change(v);} 
-} 
-}
- 
-var dsy = new Dsy();
-dsy.add("0",[<?php if(is_array($swclass)): $k = 0; $__LIST__ = $swclass;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$pso): $mod = ($k % 2 );++$k; if($k == 1): ?>"<?php echo ($pso["groupname"]); ?>"<?php else: ?>,"<?php echo ($pso["groupname"]); ?>"<?php endif; endforeach; endif; else: echo "" ;endif; ?>]);
-
-
-
-
-
-
-<?php if(is_array($shangwu_small)): $kk = 0; $__LIST__ = $shangwu_small;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$pp): $mod = ($kk % 2 );++$kk;?><!-- -->
-dsy.add("0_<?php echo ($kk-1); ?>",[
-<?php foreach($pp as $kkk=>$vvv){ if($kkk == 0): ?>"<?php echo ($vvv['name']); ?>"<?php else: ?>,"<?php echo ($vvv['name']); ?>"<?php endif; } ?>]
-);<?php endforeach; endif; else: echo "" ;endif; ?>
-
-var s=["s1","s2"];
-var opt0 = ["指派部门","指派人"]; 
-function setup() 
-{ 
-for(i=0;i<s.length-1;i++) 
-document.getElementById(s[i]).onchange=new Function("change("+(i+1)+")"); 
-change(0); 
-} 
-</script>
 <!-- BEGIN PAGE LEVEL STYLES --> 
 	<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
 	<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
@@ -272,10 +216,10 @@ change(0);
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-				<div class="row-fluid">
+		<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
+				<h3 class="page-title"><small>欢迎你！</small><?php echo session('username');?> 　<small>您的登陆身份是：
 				<?php if($_SESSION['usertype'] == 1): ?>重大办<?php endif; ?>
 				<?php if($_SESSION['usertype'] == 2): ?>部门<?php endif; ?>
 				<?php if($_SESSION['usertype'] == 3): ?>乡镇街道<?php endif; ?>
@@ -296,14 +240,14 @@ change(0);
 
 							<li>
 
-								<a href="<?php echo U('Project/PList');?>">项目管理</a>
+								<a href="<?php echo U('Project/PList');?>">项目列表</a>
 
 								<span class="icon-angle-right"></span>
 
 							</li>
 
-							<li><a href="<?php echo U('Project/create');?>">添加项目</a></li>
-
+							
+                            <li><a>查看月报</a></li>
 						</ul>
 		<!-- END PAGE HEADER-->
 		<div class="portlet box blue tabbable">
@@ -314,7 +258,7 @@ change(0);
 
 									<i class="icon-reorder"></i>
 
-									<span class="hidden-480">添加项目</span>
+									<span class="hidden-480">查看月报</span>
 
 								</div>
 
@@ -333,193 +277,91 @@ change(0);
 									</ul>
 
 									<div class="tab-content">
-<form action="__APP__/Project/add" method="post" accept-charset="utf-8">
+<BR />
 
-    <div class="panes">
-        <div>
-        		<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC" class="s-table">
-						<caption>
-								基本信息
-								</caption>
-        				<tr >
-								<td width="12%">项目编码 <span class="required">*</span></td>
-        						<td colspan="2"><input type="text" class="normal" name="projectcoding"   value="sp<?php echo date('YmdHis', time()) ?>" />								</td>
-        						<td>项目类别<span class="required">*</span></td>
-        						<td width="120"><select name="citytype" id="citytype">
-												<option value="0">区储备重大项目</option>
-												<option value="1">市重大项目库项目</option>
-										</select>								</td>
-        						<td width="10%">填报时间<span class="required">*</span></td>
-        						<td>
-								<input type="text" class="normal datepicker" name="created"  />												 </td>
-        						</tr>
-						<tr class="even">
-								<td>项目名称<span class="required">*</span></td>
-								<td colspan="4"><input type="text" class="normal" name="projectname" style="width:90%" /></td>
-								<td>责任主体<span class="required">*</span></td>
-								<td>
-		<select name="bumen" id="s1" style="width:93px;">
-            <option></option>
-          </select>
-          <select name="bumenwho" id="s2"  style="width:93px;">
-            <option></option>
-          </select>
-          <script language="javascript">setup();</script> 
-		  
-<select name="xiangzhen">
-<option value="">指派乡镇</option>
-<?php if(is_array($xzclass)): $i = 0; $__LIST__ = $xzclass;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$pvo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($pvo["groupname"]); ?>" ><?php echo ($pvo["groupname"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
-</select>
-</td>
-						</tr>
-						<tr>
-								<td>投资主体</td>
-								<td style="width: 8%">联系人</td>
-								<td><input type="text" class="normal" name="invest_linkman_name" /></td>
-								<td style="width: 8%">职务</td>
-								<td><input type="text" class="normal" name="invest_linkman_position" /></td>
-								<td>联系方式</td>
-								<td><input type="text" class="normal" name="invest_linkman_phone" /></td>
-						</tr>
-						<tr  class="even">
-								<td>合作方</td>
-								<td colspan="4"><input type="text" class="normal" name="partner" style="width:50%" /></td>
-								<td rowspan="2">被纳入省(部)
-重大项目计划名称</td>
-								<td rowspan="2"><input type="text" class="normal" name="majorprojectname"/></td>
-						</tr>
-						<tr>
-								<td>合作院所</td>
-								<td colspan="4"><input type="text" class="normal" name="cooperation" style="width:50%" /></td>
+<table class="table table-striped table-hover table-bordered dataTable" id="sample_editable_1" aria-describedby="sample_editable_1_info" width="100%">
+
+									<thead>
+
+										<tr role="row"><th width="143" colspan="1" rowspan="1" class="sorting_disabled" style="width: 107px;" role="columnheader" aria-label="Username">项目编码</th><th width="300" colspan="1" rowspan="1" class="sorting" style="width: 190px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Full Name: activate to sort column ascending">项目名称</th><th width="145" colspan="1" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Points: activate to sort column ascending">完成拆迁</th><th width="201" colspan="1" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">开始打桩</th>
+										  <th width="164" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">基础开挖</th>
+										  <th width="95" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">正&nbsp;负&nbsp;零</th>
+										<th width="96" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">主体封顶</th>	
+																			    <th width="96" rowspan="1" class="sorting" style="width: 88px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">发布时间</th>								
+									    <th colspan="2" rowspan="1" class="sorting" style="width: 58px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Edit: activate to sort column ascending">管理</th></tr>
+									</thead>
+
+									
+
+								<tbody role="alert" aria-live="polite" aria-relevant="all">
+								<?php if(is_array($projectall)): $i = 0; $__LIST__ = $projectall;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$p): $mod = ($i % 2 );++$i; if($i%2 == 0): ?><tr class="odd">
+
+											<td class="  sorting_1"><?php echo ($p["projectcoding"]); ?></td>
+
+											<td class=" "><?php echo ($p["projectname"]); ?></td>
+
+											<td class=" "><?php echo ($p["build_actual_demolition"]); ?></td>
+
+											<td class="center "><?php echo ($p["build_actual_piling"]); ?></td>
+
+											<td class="center "><?php echo ($p["build_actual_excavate"]); ?></td>
+											<td class="center "><?php echo ($p["build_actual_pmz"]); ?></td>
+											<td class="center "><?php echo ($p["build_plan_cap"]); ?></td>
+											<td class="center "><?php echo (date("Y-m-d H:i:s",$p["build_addtime"])); ?></td>
+											<td class=" ">
+											
+											<a href="<?php echo U('Project/PMRediter','id='); echo ($p["id"]); ?>">编辑</a>
+											<a onclick="return confirm(this,'您确定删除吗？')" href="<?php echo U('Project/project_MR_delete','id='); echo ($p["id"]); ?>">删除</a>
+											
+											<?php if($_SESSION['usertype'] == 3): if(($p["ischeckbm"] == 1) and ($p["ischeckzd"] == 1)): ?><font color="#009900">已审核</font>
+											   <?php else: ?>
+											   审核中<?php endif; endif; ?>
+											
+											<?php if($_SESSION['usertype'] == 2): if($p["ischeckbm"] == 1): ?><a href="<?php echo U('Project/Shenhebumen','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											   <?php else: ?>
+											   <a href="<?php echo U('Project/Shenhebumen','id='); echo ($p["id"]); ?>">审核中</a><?php endif; endif; ?>
+											
+											<?php if($_SESSION['usertype'] == 1): if($p["ischeckbm"] == 1): if($p["ischeckzd"] == 1): ?><a href="<?php echo U('Project/Shenhezdb','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											     <?php else: ?>
+											     <a href="<?php echo U('Project/Shenhezdb','id='); echo ($p["id"]); ?>">审核中</a><?php endif; endif; endif; ?>
+											</td>
 								</tr>
-		</table>
-        </div>
-        <div>
-            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
-                <caption>项目入库和市认定情况</caption>
-                <tr>
-                    <td>入库时间</td>
-                    <td>报市库时间</td>
-                    <td>认定新签约</td>
-                    <td>认定新开工</td>
-                    <td>认定新竣工</td>
-                    <td>认定新投产</td>
-                </tr>
-                <tr>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_time"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_citytime"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_newsignature"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_startwork"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_newcompletion"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_production"></td>
-                </tr>
-            </table>
-        </div>
-        <div>
-            <table id="addNode" class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0">
-                <caption>建设时序计划完成情况<span class="required">*</span></caption>
-                <tr>
-                    <td>节点</td>
-                    <td>完成拆迁</td>
-                    <td>开始打桩</td>
-                    <td>基础开挖</td>
-                    <td>正&nbsp;负&nbsp;零</td>
-                    <td>主体封顶</td>
-                    <td>主体竣工</td>
-                    <td>设备安装调试(装修)</td>
-                    <td>部分投产(营业)</td>
-                    <td colspan="2">全部投产(营业)</td>
-                </tr>
-                <tr>
-                    <td><input type="hidden" class="normal" name="planname" value="默认">计划</td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_demolition"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_piling"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_excavate"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_pmz"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_cap"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_completion"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_device"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_partproduction"></td>
-                    <td colspan="2"><input type="text" style="width:87%" class="normal datepicker" name="build_plan_allproduction"></td>
-                </tr>
-            </table>
-          <!--  <button id="addNodeButtom" type="button" class="btn green" style="margin-top: 10px;">添加节点</button> -->
-        </div>
-        <div>
-            <table class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" >
-                <caption>挂钩领导部门联系信息</caption>
-                <tr>
-                    <td rowspan="3" style="width: 10%">挂钩市领导</td>
-                    <td colspan="2" style="width: 15%">姓名</td>
-                    <td><input type="text" class="normal" name="city_leader_name"></td>
-                    <td style="width: 10%">职务</td>
-                    <td><input type="text" class="normal" name="city_leader_position"></td>
-                </tr>
-                <tr>
-                    <td rowspan="2">联系人</td>
-                    <td style="width: 10%">姓名</td>
-                    <td><input type="text" class="normal" name="city_contact_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="city_contact_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="city_contact_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="city_contact_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2">市挂钩部门</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="city_department"></td>
-                    <td>联系人职务</td>
-                    <td><input type="text" class="normal" name="city_department_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="city_department_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="city_department_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2">责任主体</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="responsibility_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="responsibility_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="responsibility_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="responsibility_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2" >责任主体重大办联系人</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="officemajor_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="officemajor_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="officemajor_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="officemajor_mail"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <p style="line-height:40px; height:40px; color:#0066FF">*为必填项，其他项可以[修改项目]中添加，修改。</p>
+								<?php else: ?>
+											<tr class="even">
+											<td class="  sorting_1"><?php echo ($p["projectcoding"]); ?></td>
 
-												<div class="form-actions">
+											<td class=" "><?php echo ($p["projectname"]); ?></td>
 
-													<button type="submit" class="btn blue"><i class="icon-ok"></i> 保存</button>
+											<td class=" "><?php echo ($p["build_actual_demolition"]); ?></td>
 
-													<button type="button" class="btn">取消</button>
+											<td class="center "><?php echo ($p["build_actual_piling"]); ?></td>
 
-												</div>
-</form>
+											<td class="center "><?php echo ($p["build_actual_excavate"]); ?></td>
+											<td class="center "><?php echo ($p["build_actual_pmz"]); ?></td>
+											
+											<td class="center "><?php echo ($p["build_plan_cap"]); ?></td>
+                                            <td class="center "><?php echo (date("Y-m-d H:i:s",$p["build_addtime"])); ?></td>
+											<td class=" ">
+											<a href="<?php echo U('Project/PMRediter','id='); echo ($p["id"]); ?>">编辑</a>
+											<a onclick="return confirm(this,'您确定删除吗？')" href="<?php echo U('Project/project_MR_delete','id='); echo ($p["id"]); ?>">删除</a>
+											
+											<?php if($_SESSION['usertype'] == 3): if(($p["ischeckbm"] == 1) and ($p["ischeckzd"] == 1)): ?><font color="#009900">已审核</font>
+											   <?php else: ?>
+											   审核中<?php endif; endif; ?>
+											
+											<?php if($_SESSION['usertype'] == 2): if($p["ischeckbm"] == 1): ?><a href="<?php echo U('Project/Shenhebumen','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											   <?php else: ?>
+											   <a href="<?php echo U('Project/Shenhebumen','id='); echo ($p["id"]); ?>">审核中</a><?php endif; endif; ?>
+											
+											<?php if($_SESSION['usertype'] == 1): if($p["ischeckbm"] == 1): if($p["ischeckzd"] == 1): ?><a href="<?php echo U('Project/Shenhezdb','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											     <?php else: ?>
+											     <a href="<?php echo U('Project/Shenhezdb','id='); echo ($p["id"]); ?>">审核中</a><?php endif; endif; endif; ?>
+											
+											
+											</td>
+											</tr><?php endif; endforeach; endif; else: echo "" ;endif; ?>
+										</tbody></table>
+<div class="row-fluid"><div class="span6"><div class="dataTables_info" id="sample_editable_1_info"></div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul><?php echo ($page_pro); ?></ul></div></div></div></div>
 									</div>
 
 								</div>

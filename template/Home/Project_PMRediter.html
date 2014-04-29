@@ -5,64 +5,6 @@ select{ width:137PX;}
 TABLE TD{ padding-left:5PX; padding-top:5PX; padding-right:5PX; color:#666666}
 .s-table caption{ height:40PX; line-height:40PX; background-color:#f5f5f5;border-top: 1px solid #CCCCCC;border-left: 1px solid #CCCCCC;border-right: 1px solid #CCCCCC; margin-top:20PX; font-size:14px; font-weight:bold}
 </style>
-<script>
-function Dsy() 
-{ 
-this.Items = {}; 
-} 
-Dsy.prototype.add = function(id,iArray) 
-{ 
-this.Items[id] = iArray; 
-} 
-Dsy.prototype.Exists = function(id) 
-{ 
-if(typeof(this.Items[id]) == "undefined") return false; 
-return true; 
-}
- 
-function change(v){ 
-var str="0"; 
-for(i=0;i<v;i++){ str+=("_"+(document.getElementById(s[i]).selectedIndex-1));}; 
-var ss=document.getElementById(s[v]); 
-with(ss){ 
-length = 0; 
-options[0]=new Option(opt0[v],opt0[v]); 
-if(v && document.getElementById(s[v-1]).selectedIndex>0 || !v) 
-{ 
-if(dsy.Exists(str)){ 
-ar = dsy.Items[str]; 
-for(i=0;i<ar.length;i++)options[length]=new Option(ar[i],ar[i]); 
-if(v)options[1].selected = true; 
-} 
-} 
-if(++v<s.length){change(v);} 
-} 
-}
- 
-var dsy = new Dsy();
-dsy.add("0",[<volist name="swclass" id="pso" key="k"><if condition="$k eq 1">"{$pso.groupname}"<else/>,"{$pso.groupname}"</if></volist>]);
-
-
-
-
-
-
-<volist name="shangwu_small" id="pp" key="kk"><!-- -->
-dsy.add("0_{$kk-1}",[
-<php>foreach($pp as $kkk=>$vvv){</php><if condition="$kkk eq 0">"{$vvv['name']}"<else/>,"{$vvv['name']}"</if><php>}</php>]
-);
-
-</volist>
-
-var s=["s1","s2"];
-var opt0 = ["指派部门","指派人"]; 
-function setup() 
-{ 
-for(i=0;i<s.length-1;i++) 
-document.getElementById(s[i]).onchange=new Function("change("+(i+1)+")"); 
-change(0); 
-} 
-</script>
 <!-- BEGIN PAGE LEVEL STYLES --> 
 	<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
 	<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
@@ -101,14 +43,14 @@ change(0);
 
 							<li>
 
-								<a href="{:U('Project/PList')}">项目管理</a>
+								<a href="{:U('Project/PList')}">项目列表</a>
 
 								<span class="icon-angle-right"></span>
 
 							</li>
 
-							<li><a href="{:U('Project/create')}">添加项目</a></li>
-
+							
+                            <li><a>查看月报</a></li>
 						</ul>
 		<!-- END PAGE HEADER-->
 		<div class="portlet box blue tabbable">
@@ -119,7 +61,7 @@ change(0);
 
 									<i class="icon-reorder"></i>
 
-									<span class="hidden-480">添加项目</span>
+									<span class="hidden-480">修改月报</span>
 
 								</div>
 
@@ -138,90 +80,10 @@ change(0);
 									</ul>
 
 									<div class="tab-content">
-<form action="__APP__/Project/add" method="post" accept-charset="utf-8">
+<BR />
 
-    <div class="panes">
-        <div>
-        		<table width="100%" border="1" cellpadding="0" cellspacing="1" bordercolor="#CCCCCC" class="s-table">
-						<caption>
-								基本信息
-								</caption>
-        				<tr >
-								<td width="12%">项目编码 <span class="required">*</span></td>
-        						<td colspan="2"><input type="text" class="normal" name="projectcoding"   value="sp<php>echo date('YmdHis', time())</php>" />								</td>
-        						<td>项目类别<span class="required">*</span></td>
-        						<td width="120"><select name="citytype" id="citytype">
-												<option value="0">区储备重大项目</option>
-												<option value="1">市重大项目库项目</option>
-										</select>								</td>
-        						<td width="10%">填报时间<span class="required">*</span></td>
-        						<td>
-								<input type="text" class="normal datepicker" name="created"  />												 </td>
-        						</tr>
-						<tr class="even">
-								<td>项目名称<span class="required">*</span></td>
-								<td colspan="4"><input type="text" class="normal" name="projectname" style="width:90%" /></td>
-								<td>责任主体<span class="required">*</span></td>
-								<td>
-		<select name="bumen" id="s1" style="width:93px;">
-            <option></option>
-          </select>
-          <select name="bumenwho" id="s2"  style="width:93px;">
-            <option></option>
-          </select>
-          <script language="javascript">setup();</script> 
-		  
-<select name="xiangzhen">
-<option value="">指派乡镇</option>
-<volist name="xzclass" id="pvo">
-<option value="{$pvo.groupname}" >{$pvo.groupname}</option>
-</volist>
-</select>
-</td>
-						</tr>
-						<tr>
-								<td>投资主体</td>
-								<td style="width: 8%">联系人</td>
-								<td><input type="text" class="normal" name="invest_linkman_name" /></td>
-								<td style="width: 8%">职务</td>
-								<td><input type="text" class="normal" name="invest_linkman_position" /></td>
-								<td>联系方式</td>
-								<td><input type="text" class="normal" name="invest_linkman_phone" /></td>
-						</tr>
-						<tr  class="even">
-								<td>合作方</td>
-								<td colspan="4"><input type="text" class="normal" name="partner" style="width:50%" /></td>
-								<td rowspan="2">被纳入省(部)
-重大项目计划名称</td>
-								<td rowspan="2"><input type="text" class="normal" name="majorprojectname"/></td>
-						</tr>
-						<tr>
-								<td>合作院所</td>
-								<td colspan="4"><input type="text" class="normal" name="cooperation" style="width:50%" /></td>
-								</tr>
-		</table>
-        </div>
-        <div>
-            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
-                <caption>项目入库和市认定情况</caption>
-                <tr>
-                    <td>入库时间</td>
-                    <td>报市库时间</td>
-                    <td>认定新签约</td>
-                    <td>认定新开工</td>
-                    <td>认定新竣工</td>
-                    <td>认定新投产</td>
-                </tr>
-                <tr>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_time"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_citytime"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_newsignature"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_startwork"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_newcompletion"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="warehousing_production"></td>
-                </tr>
-            </table>
-        </div>
+<form action="__APP__/Project/editemonthpreport" method="post" accept-charset="utf-8">
+
         <div>
             <table id="addNode" class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0">
                 <caption>建设时序计划完成情况<span class="required">*</span></caption>
@@ -238,87 +100,62 @@ change(0);
                     <td colspan="2">全部投产(营业)</td>
                 </tr>
                 <tr>
-                    <td><input type="hidden" class="normal" name="planname" value="默认">计划</td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_demolition"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_piling"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_excavate"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_pmz"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_cap"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_completion"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_device"></td>
-                    <td><input type="text" style="width:87%" class="normal datepicker" name="build_plan_partproduction"></td>
-                    <td colspan="2"><input type="text" style="width:87%" class="normal datepicker" name="build_plan_allproduction"></td>
+                    <td>计划</td>
+                    <td>{$projecteditemr.build_plan_demolition}<input name="build_plan_demolition" type="hidden" value="{$projecteditemr.build_plan_demolition}" /></td>
+                    <td>{$projecteditemr.build_plan_piling}<input name="build_plan_piling" type="hidden" value="{$projecteditemr.build_plan_piling}" /></td>
+                    <td>{$projecteditemr.build_plan_excavate}<input name="build_plan_excavate" type="hidden" value="{$projecteditemr.build_plan_excavate}" /></td>
+                    <td>{$projecteditemr.build_plan_pmz}<input name="build_plan_pmz" type="hidden" value="{$projecteditemr.build_plan_pmz}" /></td>
+                    <td>{$projecteditemr.build_plan_cap}<input name="build_plan_cap" type="hidden" value="{$projecteditemr.build_plan_cap}" /></td>
+                    <td>{$projecteditemr.build_plan_completion}<input name="build_plan_completion" type="hidden" value="{$projecteditemr.build_plan_completion}" /></td>
+                    <td>{$projecteditemr.build_plan_device}<input name="build_plan_device" type="hidden" value="{$projecteditemr.build_plan_device}" /></td>
+                    <td>{$projecteditemr.build_plan_partproduction}<input name="build_plan_partproduction" type="hidden" value="{$projecteditemr.build_plan_partproduction}" /></td>
+                    <td colspan="2">{$projecteditemr.build_plan_allproduction}<input name="build_plan_allproduction" type="hidden" value="{$projecteditemr.build_plan_allproduction}" /></td>
+                </tr>
+                <tr>
+                		<td>实际</td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_demolition}" name="build_actual_demolition"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_piling}" name="build_actual_piling"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_excavate}" name="build_actual_excavate"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_pmz}" name="build_actual_pmz"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_cap}" name="build_actual_cap"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_completion}" name="build_actual_completion"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_device}" name="build_actual_device"></td>
+                		<td><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_partproduction}" name="build_actual_partproduction"></td>
+                		<td colspan="2"><input type="text" style="width:87%" class="normal datepicker"  value="{$projecteditemr.build_actual_allproduction}" name="build_actual_allproduction"></td>
                 </tr>
             </table>
           <!--  <button id="addNodeButtom" type="button" class="btn green" style="margin-top: 10px;">添加节点</button> -->
         </div>
-        <div>
-            <table class="s-table" width="100%" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" >
-                <caption>挂钩领导部门联系信息</caption>
+		<div>
+		<table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>详细进展</caption>
                 <tr>
-                    <td rowspan="3" style="width: 10%">挂钩市领导</td>
-                    <td colspan="2" style="width: 15%">姓名</td>
-                    <td><input type="text" class="normal" name="city_leader_name"></td>
-                    <td style="width: 10%">职务</td>
-                    <td><input type="text" class="normal" name="city_leader_position"></td>
-                </tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_jinzhan" id="content_jinzhan" cols="45" rows="5" style="width:96%">{$projecteditemr.content_jinzhan}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+			</div>
+ <div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>存在问题</caption>
                 <tr>
-                    <td rowspan="2">联系人</td>
-                    <td style="width: 10%">姓名</td>
-                    <td><input type="text" class="normal" name="city_contact_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="city_contact_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="city_contact_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="city_contact_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2">市挂钩部门</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="city_department"></td>
-                    <td>联系人职务</td>
-                    <td><input type="text" class="normal" name="city_department_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="city_department_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="city_department_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2">责任主体</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="responsibility_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="responsibility_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="responsibility_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="responsibility_mail"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" rowspan="2" >责任主体重大办联系人</td>
-                    <td>名称</td>
-                    <td><input type="text" class="normal" name="officemajor_name"></td>
-                    <td>职务</td>
-                    <td><input type="text" class="normal" name="officemajor_position"></td>
-                </tr>
-                <tr>
-                    <td>联系方式</td>
-                    <td><input type="text" class="normal" name="officemajor_phone"></td>
-                    <td>E-mail</td>
-                    <td><input type="text" class="normal" name="officemajor_mail"></td>
-                </tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_problem" id="content_problem" cols="45" rows="5" style="width:96%">{$projecteditemr.content_problem}</textarea>
+                    </label></td>
+                    </tr>
             </table>
         </div>
-    </div>
-    <p style="line-height:40px; height:40px; color:#0066FF">*为必填项，其他项可以[修改项目]中添加，修改。</p>
-
+		<div>
+            <table class="s-table" border="1" cellspacing="1" bordercolor="#CCCCCC" cellpadding="0" width="100%">
+                <caption>市领导挂钩情况</caption>
+                <tr>
+                    <td height="59" colspan="6" align="center"><label>
+                    		<textarea name="content_leader" id="content_leader" cols="45" rows="5" style="width:96%">{$projecteditemr.content_leader}</textarea>
+                    </label></td>
+                    </tr>
+            </table>
+        </div>
 												<div class="form-actions">
 
 													<button type="submit" class="btn blue"><i class="icon-ok"></i> 保存</button>
@@ -326,7 +163,10 @@ change(0);
 													<button type="button" class="btn">取消</button>
 
 												</div>
+<input name="id" type="hidden" value="{$projecteditemr.id}" />
+
 </form>
+<div class="row-fluid"><div class="span6"><div class="dataTables_info" id="sample_editable_1_info"></div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul>{$page_pro}</ul></div></div></div></div>
 									</div>
 
 								</div>

@@ -210,7 +210,7 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-				<div class="row-fluid">
+		<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
@@ -237,19 +237,28 @@
 				</ul>
 		<div class="portlet box blue">
 			<div class="portlet-title">
-				<div class="caption"><i class="icon-edit"></i>创建用户</div>
+				<div class="caption"><i class="icon-edit"></i>用户编辑</div>
 				<div class="tools"></div>
 			</div>
 			<div class="portlet-body">
-				<form action="" method="POST" name="member_create" id="member_create">
+<!-- 				<div class="clearfix">
+					<div class="btn-group">
+						<button id="sample_editable_1_new" class="btn green">添加新用户 <i class="icon-plus"></i></button>
+					</div>
+				</div> -->
+				<form action="" method="POST" name="member_edit" id="member_edit">
 					<table class="table table-striped table-hover table-bordered dataTable">
 						<tbody>
 							<tr class="odd">
-								<td style="width:200px;"><span class="font-title">用户名 <span style="color:red">*</span><span></td>
-								<td><input type="text" value="" name="username"></td>
+								<td style="width:200px;"><span class="font-title">用户id<span></td>
+								<td><?php echo ($view["userid"]); ?></td>
 							</tr>
 							<tr class="odd">
-								<td><span class="font-title">密码<span></td>
+								<td><span class="font-title">用户名<span></td>
+								<td><input type="text" value="<?php echo ($view["username"]); ?>" name="username"></td>
+							</tr>
+							<tr class="odd">
+								<td><span class="font-title">密码(如无需更改请留空)<span></td>
 								<td><input type="password" name="password" id="password"></td>
 							</tr>
 							<tr>
@@ -261,9 +270,10 @@
 								<td>
 									<select name="usertype" id="usertype" onchange="addChild();">
 										<option>请选择用户组</option>
-										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
+										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>" <?php if($view['usertype']==$vol['groupid']){?> selected=selected <?php } ?> ><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
 									</select>
-									<select name="groupid" id="groupid" style="display:none">
+									<select name="groupid" id="groupid">
+										<?php if(is_array($listChild)): foreach($listChild as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>" <?php if($view['groupid']==$vol['groupid']){?> selected=selected <?php } ?> ><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
 									</select>
 								</td>
 							</tr>
@@ -292,7 +302,7 @@
 								<td><input type="text" value="<?php echo ($view["fax"]); ?>" name="fax"></td>
 							</tr>
 							<tr>
-								<td><button class="btn green" name="submit" value="1">创建用户</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
+								<td><button class="btn green" name="submit" value="1">编辑</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
 							</tr>
 							<input type="hidden" value="<?php echo ($view["userid"]); ?>" name="userid">
 						</tbody>
@@ -303,6 +313,7 @@
 	</div>
 <!-- END PAGE CONTAINER-->    
 </div>
+
 <script type="text/javascript">
 	function addChild(){
 		var gid = $("#usertype").val();
@@ -369,8 +380,7 @@
 <script src="__ROOT__/public/media/js/fullcalendar.min.js" type="text/javascript"></script>
 <script src="__ROOT__/public/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
 <script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script> 
-<script src="__ROOT__/public/media/js/jquery.validate.min.js" type="text/javascript"></script>
-
+<script src="__ROOT__/public/media/js/jquery.validate.min.js" type="text/javascript"></script> 
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="__ROOT__/public/media/js/app.js" type="text/javascript"></script>
@@ -501,25 +511,21 @@ var Index = function () {
 jQuery(document).ready(function(){   
 	   App.init(); // initlayout and core plugins
 	   Index.initCharts(); // init index page's custom scripts
-
-		$("#member_create").validate({
+	   $("#member_edit").validate({
 		        rules: {
 				   username: {
 				   required: true,
 				   minlength: 4,
 				   maxlength: 15,
-				   alnum: true
 			       },
 				   email: {
 				   required: true,
 				   email: true
 			       },
 				   password: {
-				    required: true,
 				    minlength: 5
 				   },
 				   repassword: {
-				    required: true,
 				    minlength: 5,
 				    equalTo: "#password"
 				   }
@@ -528,26 +534,22 @@ jQuery(document).ready(function(){
 				   username: {
 				    required: "请输入用户名",
 				    minlength: "用户名长度为4-15之间",
-				    maxlength: "用户名长度为4-15之间",
-				    alnum: "请输入字母、数字或者下划线的组合"
+				    maxlength: "用户名长度为4-15之间"
 				   },
 				   email: {
 				    required: "请输入Email地址",
 				    email: "请输入正确的email地址"
 				   },
 				   password: {
-				    required: "请输入密码",
-				    minlength: jQuery.format("密码不能小于{0}个字 符")
+				    minlength: jQuery.format("密码不能小于{0}个字符")
 				   },
 				   repassword: {
-				    required: "请输入确认密码",
 				    minlength: "确认密码不能小于5个字符",
 				    equalTo: "两次输入密码不一致"
 				   }
 		        }
 		});
 	});
-
 </script>
 <!-- END BODY -->
 </body>

@@ -1,8 +1,6 @@
 <?php
 
 class IndexAction extends Action{
-
-
 	//登入
 	public function index(){
 		if(IS_POST){
@@ -29,7 +27,7 @@ class IndexAction extends Action{
 			  if($checkData['password']!=md5(md5($password))){
 				$this->error('密码错误,请正确输入');
 			  }
-			  
+			  session('name',$checkData['name']);
               session('usertype',$checkData['usertype']);
 			  session('userid',$checkData['userid']);
 			  session('username',$checkData['username']);
@@ -38,8 +36,10 @@ class IndexAction extends Action{
 		}else{
 			$this->display();
 		}
+		
 	}
-
+	
+	
 	public function logout(){
 		session(null);
 		session_destroy();
@@ -50,4 +50,7 @@ class IndexAction extends Action{
 		$this->success('您已成功退出！',U('Index/index'));
 	}
 	
+
+	
+
 }

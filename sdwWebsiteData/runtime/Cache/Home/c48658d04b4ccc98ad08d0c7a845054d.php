@@ -188,13 +188,13 @@
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
 <!-- BEGIN PAGE LEVEL STYLES --> 
-<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
-<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
-<link href="__ROOT__/public/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
-<link href="__ROOT__/public/media/css/jqvmap.css" rel="stylesheet" type="text/css" /public/media="screen"/>
-<link href="__ROOT__/public/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" /public/media="screen"/>
+	<link href="__ROOT__/public/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/daterangepicker.css" rel="stylesheet" type="text/css" />
+	<link href="__ROOT__/public/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
+	<link href="__ROOT__/public/media/css/jqvmap.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="__ROOT__/public/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
 <!-- END PAGE LEVEL STYLES -->
-<!-- BEGIN PAGE -->
+		<!-- BEGIN PAGE -->
 <div class="page-content" style="min-height:560px;">
 	<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 	<div id="portlet-config" class="modal hide">
@@ -210,7 +210,7 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-				<div class="row-fluid">
+		<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
@@ -220,104 +220,183 @@
 				</small></h3>
 			</div>
 		</div>
-		<!-- END PAGE HEADER-->
-				<ul class="breadcrumb">
+        		<ul class="breadcrumb">
+
 							<li>
+
 								<i class="icon-home"></i>
+
 								<a href="<?php echo U('Index/Agent');?>">平台首页</a> 
+
 								<span class="icon-angle-right"></span>
+
 							</li>
+
 							<li>
-								<a href="<?php echo U('Member/member_list');?>">用户管理</a>
+
+								<a href="<?php echo U('Project/PList');?>">项目列表</a>
+
 								<span class="icon-angle-right"></span>
+
 							</li>
-							<li>
-								<span>用户详情</span>
-							</li>
-				</ul>
+
+
+						</ul>
+		<!-- END PAGE HEADER-->
 		<div class="portlet box blue">
-			<div class="portlet-title">
-				<div class="caption"><i class="icon-edit"></i>创建用户</div>
-				<div class="tools"></div>
-			</div>
-			<div class="portlet-body">
-				<form action="" method="POST" name="member_create" id="member_create">
-					<table class="table table-striped table-hover table-bordered dataTable">
-						<tbody>
-							<tr class="odd">
-								<td style="width:200px;"><span class="font-title">用户名 <span style="color:red">*</span><span></td>
-								<td><input type="text" value="" name="username"></td>
-							</tr>
-							<tr class="odd">
-								<td><span class="font-title">密码<span></td>
-								<td><input type="password" name="password" id="password"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">重复密码<span></td>
-								<td><input type="password" name="repassword"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">用户组<span></td>
-								<td>
-									<select name="usertype" id="usertype" onchange="addChild();">
-										<option>请选择用户组</option>
-										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
-									</select>
-									<select name="groupid" id="groupid" style="display:none">
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><span class="font-title">真实姓名<span></td>
-								<td><input type="text" value="<?php echo ($view["name"]); ?>" name="name" ></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">手机号<span></td>
-								<td><input type="text" value="<?php echo ($view["mobile"]); ?>" name="mobile"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">电话<span></td>
-								<td><input type="text" value="<?php echo ($view["phone"]); ?>" name="phone"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">Email<span></td>
-								<td><input type="text" value="<?php echo ($view["email"]); ?>" name="email"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">QQ<span></td>
-								<td><input type="text" value="<?php echo ($view["qq"]); ?>" name="qq"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">传真<span></td>
-								<td><input type="text" value="<?php echo ($view["fax"]); ?>" name="fax"></td>
-							</tr>
-							<tr>
-								<td><button class="btn green" name="submit" value="1">创建用户</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
-							</tr>
-							<input type="hidden" value="<?php echo ($view["userid"]); ?>" name="userid">
-						</tbody>
-					</table>
-				</form>
-			</div>
-		</div>
+
+							<div class="portlet-title">
+
+								<div class="caption"><i class="icon-edit"></i>项目列表</div>
+
+								<div class="tools">
+
+
+
+								</div>
+
+							</div>
+
+							<div class="portlet-body">
+
+								<div class="clearfix">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		<!--重大办身份添加 -->
+		<?php if($_SESSION['usertype'] == 1): ?><td><div class="btn-group">
+
+										<button id="sample_editable_1_new" class="btn green" 
+										onclick="window.open('<?php echo U('Project/create');?>')">
+
+										添加项目 <i class="icon-plus"></i>
+
+										</button>
+
+									</div></td><?php endif; ?>
+									
+				<td><form class="form-search" action="__APP__/Project/PList" style="margin-top:10px;">
+
+					<div class="input-append">
+
+						<input type="text" class="m-wrap" placeholder="项目编号,项目名称" name="search_project">
+
+						<button type="submit" class="btn blue btn-subscribe"><span>搜索项目</span> <i class="m-icon-swapright m-icon-white"></i></button>
+
+					</div>
+<input name="soso" type="hidden" value="soso" />
+				</form></td>
+		</tr>
+</table>
+
+
+
+								</div>
+<table class="table table-striped table-hover table-bordered dataTable" id="sample_editable_1" aria-describedby="sample_editable_1_info" width="100%">
+
+									<thead>
+
+										<tr role="row"><th width="143" colspan="1" rowspan="1" class="sorting_disabled" style="width: 107px;" role="columnheader" aria-label="Username">项目编码</th><th width="300" colspan="1" rowspan="1" class="sorting" style="width: 140px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Full Name: activate to sort column ascending">项目类别</th><th width="145" colspan="1" rowspan="1" class="sorting" style="width: 120px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Points: activate to sort column ascending">填报时间</th><th width="201" colspan="1" rowspan="1" class="sorting" style="width: 166px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">项目名称</th>
+										  <th width="164" rowspan="1" class="sorting" style="width: 136px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">责任主体</th>
+										  <th width="193" rowspan="1" class="sorting" style="width: 136px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Notes: activate to sort column ascending">合作方</th>
+									    <th colspan="2" rowspan="1" class="sorting" style="width: 58px;" role="columnheader" tabindex="0" aria-controls="sample_editable_1" aria-label="Edit: activate to sort column ascending">管理</th></tr>
+									</thead>
+
+									
+
+								<tbody role="alert" aria-live="polite" aria-relevant="all">
+								<?php if(is_array($projectall)): $i = 0; $__LIST__ = $projectall;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$p): $mod = ($i % 2 );++$i; if($i%2 == 0): ?><tr class="odd">
+
+											<td class="  sorting_1"><?php echo ($p["projectcoding"]); ?></td>
+
+											<td class=" ">
+											<?php if($p["citytype"] == 0): ?>区储备重大项目<?php endif; ?>
+											<?php if($p["citytype"] == 1): ?>市重大项目库项目<?php endif; ?>											</td>
+
+											<td class=" "><?php echo ($p["created"]); ?></td>
+
+											<td class="center "><?php echo ($p["projectname"]); ?></td>
+
+											<td class="center "><?php echo ($p["bumen"]); ?>--<?php echo ($p["bumenwho"]); ?></td>
+											<td class="center "><?php echo ($p["partner"]); ?></td>
+											<td class=" ">
+											<!--乡镇街道写月报 -->
+											<?php if($_SESSION['usertype'] == 3): ?><a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">编辑</a>
+                                            <a href="<?php echo U('Project/MonthReport','id='); echo ($p["id"]); ?>">写月报</a>
+											<a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">看月报</a>
+											   <?php if(($p["ischeckbm"] == 1) and ($p["ischeckzd"] == 1)): ?><font color="#009900">已审核</font>
+											   <?php else: ?>
+											   审核中<?php endif; endif; ?>
+                                             <!--部门具有分配项目的权限 -->
+											<?php if($_SESSION['usertype'] == 2): ?><a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">写项目</a>
+											<a href="<?php echo U('Project/projectfenpei','id='); echo ($p["id"]); ?>">分配</a>
+											<a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">查看月报</a>
+											  <?php if($p["ischeckbm"] == 1): ?><a href="<?php echo U('Project/Shenhebumenxm','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											  <?php else: ?>
+											  <a href="<?php echo U('Project/Shenhebumenxm','id='); echo ($p["id"]); ?>">未审核</a><?php endif; endif; ?>	
+											<!-- 重大办具有删除项目的权限-->
+											<?php if($_SESSION['usertype'] == 1): ?><a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">月报</a>
+											<a onclick="return confirm(this,'您确定删除吗？')" href="<?php echo U('Project/project_delete','id='); echo ($p["id"]); ?>">删除</a>
+											<a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">编辑</a><BR />
+											
+											<?php if($p["ischeckbm"] == 1): ?><!--部门审核通过后，重大办来审核 -->
+											<?php if($p["ischeckzd"] == 1): ?><a href="<?php echo U('Project/Shenhezdbxm','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											<?php else: ?>
+											<a href="<?php echo U('Project/Shenhezdbxm','id='); echo ($p["id"]); ?>">未审核</a><?php endif; endif; endif; ?>	
+											</td>
+								</tr>
+								<?php else: ?>
+											<tr class="even">
+
+											<td class="  sorting_1"><?php echo ($p["projectcoding"]); ?></td>
+
+											<td class=" ">											
+											<?php if($p["citytype"] == 0): ?>区储备重大项目<?php endif; ?>
+											<?php if($p["citytype"] == 1): ?>市重大项目库项目<?php endif; ?></td>
+
+											<td class=" "><?php echo ($p["created"]); ?></td>
+
+											<td class="center "><?php echo ($p["projectname"]); ?></td>
+
+											<td class="center "><?php echo ($p["bumen"]); ?>--<?php echo ($p["bumenwho"]); ?></td>
+											<td class="center "><?php echo ($p["partner"]); ?></td>
+											<td class=" ">
+											<!--乡镇街道写月报 -->
+											<?php if($_SESSION['usertype'] == 3): ?><a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">编辑</a>
+                                            <a href="<?php echo U('Project/MonthReport','id='); echo ($p["id"]); ?>">写月报</a>
+											<a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">看月报</a>
+											   <?php if(($p["ischeckbm"] == 1) and ($p["ischeckzd"] == 1)): ?><font color="#009900">已审核</font>
+											   <?php else: ?>
+											   审核中<?php endif; endif; ?>
+                                             <!--部门具有分配项目的权限 -->
+											<?php if($_SESSION['usertype'] == 2): ?><a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">写项目</a>
+											<a href="<?php echo U('Project/projectfenpei','id='); echo ($p["id"]); ?>">分配</a>
+											<a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">查看月报</a>
+											
+											  <?php if($p["ischeckbm"] == 1): ?><a href="<?php echo U('Project/Shenhebumenxm','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											  <?php else: ?>
+											  <a href="<?php echo U('Project/Shenhebumenxm','id='); echo ($p["id"]); ?>">未审核</a><?php endif; endif; ?>	
+											<!-- 重大办具有删除项目的权限-->
+											<?php if($_SESSION['usertype'] == 1): ?><a href="<?php echo U('Project/MonthReportList','id='); echo ($p["id"]); ?>">月报</a>
+											<a onclick="return confirm(this,'您确定删除吗？')" href="<?php echo U('Project/project_delete','id='); echo ($p["id"]); ?>">删除</a>
+											<a href="<?php echo U('Project/Pediter','id='); echo ($p["id"]); ?>">编辑</a><BR />
+											
+											<?php if($p["ischeckbm"] == 1): ?><!--部门审核通过后，重大办来审核 -->
+											<?php if($p["ischeckzd"] == 1): ?><a href="<?php echo U('Project/Shenhezdbxm','id='); echo ($p["id"]); ?>"><font color="#009900">已审核</font></a>
+											<?php else: ?>
+											<a href="<?php echo U('Project/Shenhezdbxm','id='); echo ($p["id"]); ?>">未审核</a><?php endif; endif; endif; ?>	
+											</td>
+											</tr><?php endif; endforeach; endif; else: echo "" ;endif; ?>
+										</tbody></table>
+<div class="row-fluid"><div class="span6"><div class="dataTables_info" id="sample_editable_1_info"></div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul><?php echo ($page_pro); ?></ul></div></div></div></div>
+
+							</div>
+
+						</div>
+
 	</div>
-<!-- END PAGE CONTAINER-->    
+	<!-- END PAGE CONTAINER-->    
 </div>
-<script type="text/javascript">
-	function addChild(){
-		var gid = $("#usertype").val();
-		$.get("<?php echo U('Member/member_create');?>&gid="+gid,function(data){
-			if (data) {
-				$("#groupid").html(data);
-				$("#groupid").attr("style","");
-			}else{
-				$("#groupid").attr("style","display:none");
-			}		
-		});
-	}
-</script>
-
-
 <!-- END PAGE -->
 		<!-- END PAGE -->
 	</div>
@@ -353,6 +432,7 @@
 <!-- END BODY -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="__ROOT__/public/js/confirm.js" type="text/javascript"></script>   
 <script src="__ROOT__/public/media/js/jquery.vmap.js" type="text/javascript"></script>   
 <script src="__ROOT__/public/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
 <script src="__ROOT__/public/media/js/jquery.vmap.world.js" type="text/javascript"></script>
@@ -368,9 +448,7 @@
 <script src="__ROOT__/public/media/js/jquery.gritter.js" type="text/javascript"></script>
 <script src="__ROOT__/public/media/js/fullcalendar.min.js" type="text/javascript"></script>
 <script src="__ROOT__/public/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
-<script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script> 
-<script src="__ROOT__/public/media/js/jquery.validate.min.js" type="text/javascript"></script>
-
+<script src="__ROOT__/public/media/js/jquery.sparkline.min.js" type="text/javascript"></script>  
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="__ROOT__/public/media/js/app.js" type="text/javascript"></script>
@@ -378,7 +456,7 @@
 <!-- END JAVASCRIPTS -->
 <script>
 var Index = function () {
-	return {
+return {
 	//main function to initiate the module
 	init: function () {
 		App.addResponsiveHandler(function () {
@@ -390,164 +468,118 @@ var Index = function () {
 		});
 	},
 
-	initCharts: function () {
-		if (!jQuery.plot) {
-			return;
-		}
+initCharts: function () {
+	if (!jQuery.plot) {
+		return;
+	}
+	
+function showTooltip(title, x, y, contents) {
+	$('<div id="tooltip" class="chart-tooltip"><div class="date">' + title + '<\/div><div class="label label-success">CTR: ' + x + '<\/div><div class="label label-important">Imp: ' + y + '<\/div><\/div>').css({
+		position: 'absolute',
+		display: 'none',
+		top: y - 100,
+		width: 75,
+		left: x - 40,
+		border: '0px solid #ccc',
+		padding: '2px 6px',
+		'background-color': '#fff',
+	}).appendTo("body").fadeIn(200);
+}
 
-		function showTooltip(title, x, y, contents) {
-			$('<div id="tooltip" class="chart-tooltip"><div class="date">' + title + '<\/div><div class="label label-success">CTR: ' + x + '<\/div><div class="label label-important">Imp: ' + y + '<\/div><\/div>').css({
-				position: 'absolute',
-				display: 'none',
-				top: y - 100,
-				width: 75,
-				left: x - 40,
-				border: '0px solid #ccc',
-				padding: '2px 6px',
-				'background-color': '#fff',
-			}).appendTo("body").fadeIn(200);
-		}
+<?php $i=0;$j=0;$m=0; ?>
+var pageviews = [
+<?php if(is_array($chartmemberlist)): foreach($chartmemberlist as $k=>$v): ?>[<?php echo ($i); ?>, <?php echo ($v); ?>]<?php if($i != '29' ): ?>,<?php endif; ?>
+<?php $i++; endforeach; endif; ?>
+];
 
-		<?php $i=0;$j=0;$m=0; ?>
-		var pageviews = [
-		<?php if(is_array($chartmemberlist)): foreach($chartmemberlist as $k=>$v): ?>[<?php echo ($i); ?>, <?php echo ($v); ?>]<?php if($i != '29' ): ?>,<?php endif; ?>
-		<?php $i++; endforeach; endif; ?>
-		];
-
-		var visitors = [
-		<?php if(is_array($chartorderlist)): foreach($chartorderlist as $k=>$v): ?>[<?php echo ($j); ?>, <?php echo ($v); ?>]<?php if($j != '29' ): ?>,<?php endif; ?>
-		<?php $j++; endforeach; endif; ?>
-		];
-
-		if ($('#site_statistics').size() != 0) {
-			$('#site_statistics_loading').hide();
-			$('#site_statistics_content').show();
-			var plot_statistics = $.plot($("#site_statistics"), [{
-				data: pageviews,
-				label: "净增会员数"
-			}, {
-				data: visitors,
-				label: "净增订单数"
-			}
-			], {
-				series: {
-					lines: {
-						show: true,
-						lineWidth: 2,
-						fill: true,
-						fillColor: {
-							colors: [{
-								opacity: 0.05
-							}, {
-								opacity: 0.01
-							}
-							]
-						}
-					},
-					points: {
-						show: true
-					},
-					shadowSize: 2
-				},
-				grid: {
-					hoverable: true,
-					clickable: true,
-					tickColor: "#eee",
-					borderWidth: 0
-				},
-				colors: ["#d12610", "#37b7f3", "#52e136"],
-				xaxis: {
-					ticks: [
-
+var visitors = [
+<?php if(is_array($chartorderlist)): foreach($chartorderlist as $k=>$v): ?>[<?php echo ($j); ?>, <?php echo ($v); ?>]<?php if($j != '29' ): ?>,<?php endif; ?>
+<?php $j++; endforeach; endif; ?>
+];
+			
+            if ($('#site_statistics').size() != 0) {
+                $('#site_statistics_loading').hide();
+                $('#site_statistics_content').show();
+                var plot_statistics = $.plot($("#site_statistics"), [{
+                        data: pageviews,
+                        label: "净增会员数"
+                    }, {
+                        data: visitors,
+                        label: "净增订单数"
+                    }
+                ], {
+                    series: {
+                        lines: {
+                            show: true,
+                            lineWidth: 2,
+                            fill: true,
+                            fillColor: {
+                                colors: [{
+                                        opacity: 0.05
+                                    }, {
+                                        opacity: 0.01
+                                    }
+                                ]
+                            }
+                        },
+                        points: {
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#eee",
+                        borderWidth: 0
+                    },
+                    colors: ["#d12610", "#37b7f3", "#52e136"],
+					xaxis: {
+                        ticks: [
+						
 					<?php if(is_array($chartorderlist)): foreach($chartorderlist as $k=>$v): ?>[<?php echo ($m); ?>, "<?php echo ($k); ?>"]<?php if($i != '29' ): ?>,<?php endif; ?>
 					<?php $m++; endforeach; endif; ?>	
+						
+						
+						],
+                        tickDecimals: 0
+                    },
+                    yaxis: {
+                        ticks: 11,
+                        tickDecimals: 0
+                    }
+                });
 
+                var previousPoint = null;
+                $("#site_statistics").bind("plothover", function (event, pos, item) {
+                    $("#x").text(pos.x.toFixed(2));
+                    $("#y").text(pos.y.toFixed(2));
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+                            previousPoint = item.dataIndex;
 
-					],
-					tickDecimals: 0
-				},
-				yaxis: {
-					ticks: 11,
-					tickDecimals: 0
-				}
-			});
-
-			var previousPoint = null;
-			$("#site_statistics").bind("plothover", function (event, pos, item) {
-				$("#x").text(pos.x.toFixed(2));
-				$("#y").text(pos.y.toFixed(2));
-				if (item) {
-					if (previousPoint != item.dataIndex) {
-						previousPoint = item.dataIndex;
-
-						$("#tooltip").remove();
-						var x = item.datapoint[0].toFixed(2),
-						y = item.datapoint[1].toFixed(2);
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0].toFixed(2),
+                                y = item.datapoint[1].toFixed(2);
 
                            // showTooltip(item.series.label,item.pageX , item.pageY, item.series.label + " of " + x + " = " + y);
-                       }
-                   } else {
-                   	$("#tooltip").remove();
-                   	previousPoint = null;
-                   }
-               });
-		}
-	},
-
-};
+                        }
+                    } else {
+                        $("#tooltip").remove();
+                        previousPoint = null;
+                    }
+                });
+            }
+        },
+		
+    };
 
 }();
 
 jQuery(document).ready(function(){   
 	   App.init(); // initlayout and core plugins
 	   Index.initCharts(); // init index page's custom scripts
-
-		$("#member_create").validate({
-		        rules: {
-				   username: {
-				   required: true,
-				   minlength: 4,
-				   maxlength: 15,
-				   alnum: true
-			       },
-				   email: {
-				   required: true,
-				   email: true
-			       },
-				   password: {
-				    required: true,
-				    minlength: 5
-				   },
-				   repassword: {
-				    required: true,
-				    minlength: 5,
-				    equalTo: "#password"
-				   }
-				},
-				messages: {
-				   username: {
-				    required: "请输入用户名",
-				    minlength: "用户名长度为4-15之间",
-				    maxlength: "用户名长度为4-15之间",
-				    alnum: "请输入字母、数字或者下划线的组合"
-				   },
-				   email: {
-				    required: "请输入Email地址",
-				    email: "请输入正确的email地址"
-				   },
-				   password: {
-				    required: "请输入密码",
-				    minlength: jQuery.format("密码不能小于{0}个字 符")
-				   },
-				   repassword: {
-				    required: "请输入确认密码",
-				    minlength: "确认密码不能小于5个字符",
-				    equalTo: "两次输入密码不一致"
-				   }
-		        }
-		});
-	});
-
+});
 </script>
 <!-- END BODY -->
 </body>

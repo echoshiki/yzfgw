@@ -210,7 +210,7 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-				<div class="row-fluid">
+		<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
@@ -228,74 +228,41 @@
 								<span class="icon-angle-right"></span>
 							</li>
 							<li>
-								<a href="<?php echo U('Member/member_list');?>">用户管理</a>
+								<a href="<?php echo U('Member/member__group_list');?>">用户组管理</a>
 								<span class="icon-angle-right"></span>
 							</li>
 							<li>
-								<span>用户详情</span>
+								<span>添加用户组</span>
 							</li>
 				</ul>
 		<div class="portlet box blue">
 			<div class="portlet-title">
-				<div class="caption"><i class="icon-edit"></i>创建用户</div>
+				<div class="caption"><i class="icon-edit"></i>添加用户组</div>
 				<div class="tools"></div>
 			</div>
 			<div class="portlet-body">
-				<form action="" method="POST" name="member_create" id="member_create">
+				<form action="" method="POST" name="group_create" id="group_create">
 					<table class="table table-striped table-hover table-bordered dataTable">
-						<tbody>
 							<tr class="odd">
-								<td style="width:200px;"><span class="font-title">用户名 <span style="color:red">*</span><span></td>
-								<td><input type="text" value="" name="username"></td>
-							</tr>
-							<tr class="odd">
-								<td><span class="font-title">密码<span></td>
-								<td><input type="password" name="password" id="password"></td>
+								<td style="width:200px;"><span class="font-title">用户组名 <span style="color:red">*</span></span></td>
+								<td><input type="text" value="" name="groupname"></td>
 							</tr>
 							<tr>
-								<td><span class="font-title">重复密码<span></td>
-								<td><input type="password" name="repassword"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">用户组<span></td>
+								<td><span class="font-title">所属用户组 <span style="color:red">*</span></span></td>
 								<td>
-									<select name="usertype" id="usertype" onchange="addChild();">
-										<option>请选择用户组</option>
-										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option id="gid-<?php echo ($vol["groupid"]); ?>" value="<?php echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
-									</select>
-									<select name="groupid" id="groupid" style="display:none">
+									<select name="pid">
+										<?php if(is_array($list)): foreach($list as $key=>$vol): ?><option value="<?php echo ($vol["groupid"]); ?>"><?php echo ($vol["groupname"]); ?></option><?php endforeach; endif; ?>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<td><span class="font-title">真实姓名<span></td>
-								<td><input type="text" value="<?php echo ($view["name"]); ?>" name="name" ></td>
+								<td><span class="font-title">备注</span></td>
+								<td><textarea name="note" class="large m-wrap" rows="5"></textarea></td>
 							</tr>
 							<tr>
-								<td><span class="font-title">手机号<span></td>
-								<td><input type="text" value="<?php echo ($view["mobile"]); ?>" name="mobile"></td>
+								<td colspan="2"><button class="btn green" name="submit" value="1">创建用户组</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
 							</tr>
-							<tr>
-								<td><span class="font-title">电话<span></td>
-								<td><input type="text" value="<?php echo ($view["phone"]); ?>" name="phone"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">Email<span></td>
-								<td><input type="text" value="<?php echo ($view["email"]); ?>" name="email"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">QQ<span></td>
-								<td><input type="text" value="<?php echo ($view["qq"]); ?>" name="qq"></td>
-							</tr>
-							<tr>
-								<td><span class="font-title">传真<span></td>
-								<td><input type="text" value="<?php echo ($view["fax"]); ?>" name="fax"></td>
-							</tr>
-							<tr>
-								<td><button class="btn green" name="submit" value="1">创建用户</button>&nbsp;<a class="btn blue" href="javascript:history.go(-1)">返回</a></td>
-							</tr>
-							<input type="hidden" value="<?php echo ($view["userid"]); ?>" name="userid">
-						</tbody>
+							<input type="hidden" value="<?php echo ($view["groupid"]); ?>" name="groupid">
 					</table>
 				</form>
 			</div>
@@ -303,20 +270,6 @@
 	</div>
 <!-- END PAGE CONTAINER-->    
 </div>
-<script type="text/javascript">
-	function addChild(){
-		var gid = $("#usertype").val();
-		$.get("<?php echo U('Member/member_create');?>&gid="+gid,function(data){
-			if (data) {
-				$("#groupid").html(data);
-				$("#groupid").attr("style","");
-			}else{
-				$("#groupid").attr("style","display:none");
-			}		
-		});
-	}
-</script>
-
 
 <!-- END PAGE -->
 		<!-- END PAGE -->
@@ -502,52 +455,23 @@ jQuery(document).ready(function(){
 	   App.init(); // initlayout and core plugins
 	   Index.initCharts(); // init index page's custom scripts
 
-		$("#member_create").validate({
+		$("#group_create").validate({
 		        rules: {
-				   username: {
+				   groupname: {
 				   required: true,
 				   minlength: 4,
-				   maxlength: 15,
-				   alnum: true
-			       },
-				   email: {
-				   required: true,
-				   email: true
-			       },
-				   password: {
-				    required: true,
-				    minlength: 5
-				   },
-				   repassword: {
-				    required: true,
-				    minlength: 5,
-				    equalTo: "#password"
-				   }
+				   maxlength: 10,
+			       }
 				},
 				messages: {
-				   username: {
-				    required: "请输入用户名",
-				    minlength: "用户名长度为4-15之间",
-				    maxlength: "用户名长度为4-15之间",
-				    alnum: "请输入字母、数字或者下划线的组合"
-				   },
-				   email: {
-				    required: "请输入Email地址",
-				    email: "请输入正确的email地址"
-				   },
-				   password: {
-				    required: "请输入密码",
-				    minlength: jQuery.format("密码不能小于{0}个字 符")
-				   },
-				   repassword: {
-				    required: "请输入确认密码",
-				    minlength: "确认密码不能小于5个字符",
-				    equalTo: "两次输入密码不一致"
+				   groupname: {
+				    required: "请输入用户组名",
+				    minlength: "用户名长度为4-10之间",
+				    maxlength: "用户名长度为4-10之间"
 				   }
 		        }
 		});
 	});
-
 </script>
 <!-- END BODY -->
 </body>

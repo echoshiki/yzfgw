@@ -6,7 +6,7 @@
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>广陵区项目管理系统</title>
+	<title>广陵区发改委重大项目申报系统</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -33,7 +33,7 @@
 			<div class="container-fluid">
 				<!-- BEGIN LOGO -->
 				<a class="brand" href="javascript:void(0)" style="margin-left:20px;">
-					广陵区项目管理系统
+					广陵区发改委重大项目申报系统
 				</a>
 				<!-- END LOGO -->
 
@@ -52,11 +52,12 @@
 					<li class="dropdown" id="header_inbox_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-envelope"></i>
-						<span class="badge"><?php echo ($agentMessageCount); ?></span>
+						<span class="badge">4</span>
 						</a>
 						<ul class="dropdown-menu extended inbox">
-							<li><p>您有 <?php echo ($agentMessageCount); ?> 条未读通知</p></li>
-						<?php if(empty($agentMessage)): ?><li>	<a href="javascript:void(0)"> 暂 无 未 读 通 知 项 </a></li>
+							<li><p>您有 4 条未完善项目</p></li>
+							
+						<?php if(empty($agentMessage)): ?><li>	<a href="javascript:void(0)"> 暂 无 未 完 善 项 目 </a></li>
 						<?php else: ?>
 							<?php if(is_array($agentMessage)): $i = 0; $__LIST__ = $agentMessage;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li>
 									<a href="<?php echo U('Policy/notifyInfo',array('itemid'=>$v['itemid']));?>">
@@ -67,9 +68,10 @@
 									<span class="message" style="text-indent: 2em;"><?php echo (msubstr($v['content'],0,20,'utf-8',true)); ?></span>  
 									</a>
 								</li><?php endforeach; endif; else: echo "" ;endif; endif; ?>
+						
 							<li class="external">
 
-								<a href="<?php echo U('Policy/notifyList');?>">查看所有通知 <i class="m-icon-swapright"></i></a>
+								<a href="<?php echo U('Policy/notifyList');?>">查看所有项目 <i class="m-icon-swapright"></i></a>
 
 							</li>
 
@@ -79,39 +81,11 @@
 
 					<!-- END INBOX DROPDOWN -->
 
-					<!-- BEGIN TODO DROPDOWN -->
-
-					<li class="dropdown" id="header_task_bar">
-
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-tasks"></i>
-						<span class="badge"><?php echo ($agentnewscount); ?></span>
-						</a>
-						<ul class="dropdown-menu extended inbox">
-							<li><p>七天内新增 <?php echo ($agentnewscount); ?> 条政策公告</p></li>
-						<?php if(empty($agentnews)): ?><li>	<a href="javascript:void(0)"> 暂 无 政 策 公 告 </a></li>
-						<?php else: ?>
-							<?php if(is_array($agentnews)): $i = 0; $__LIST__ = $agentnews;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li>
-									<a href="<?php echo U('Policy/notifyInfo',array('itemid'=>$v['itemid']));?>">
-									<span class="subject">
-									<span class="from"><?php echo ($v['title']); ?></span>
-									<span class="time"><?php echo (date("Y-m-d",$v['addtime'])); ?></span>
-									</span>
-									<span class="message" style="text-indent: 2em;"><?php echo (msubstr($v['content'],0,20,'utf-8',true)); ?></span>  
-									</a>
-								</li><?php endforeach; endif; else: echo "" ;endif; endif; ?>
-							<li class="external">
-								<a href="<?php echo U('Policy/newsList');?>">查看所有政策公告 <i class="m-icon-swapright"></i></a>
-							</li>
-
-						</ul>
-					</li>
-					<!-- END TODO DROPDOWN -->
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<li class="dropdown user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						<img alt="" src="__ROOT__/public/media/image/avatar1_small.jpg" />
-						<span class="username"><?php echo session('username');?></span>
+						<span class="username"><?php echo session('name');?></span>
 						<i class="icon-angle-down"></i>
 						</a>
 						<ul class="dropdown-menu">
@@ -159,10 +133,14 @@
 					<span class="arrow"></span><?php endif; ?>
 					</a>
 					<ul class="sub-menu">
-						<li <?php if(ACTION_NAME == 'create'): ?>class="active"<?php endif; ?> >
-						<a href="<?php echo U('Member/create');?>">创建用户</a></li>
-						<li <?php if(ACTION_NAME == 'List'): ?>class="active"<?php endif; ?> >
-						<a href="<?php echo U('Member/List');?>">用户管理</a></li>
+						<li <?php if(ACTION_NAME == 'member_group_create'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Member/member_group_create');?>">创建用户组</a></li>
+						<li <?php if(ACTION_NAME == 'member_group'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Member/member_group');?>">用户组管理</a></li>
+						<li <?php if(ACTION_NAME == 'member_create'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Member/member_create');?>">创建用户</a></li>
+						<li <?php if(ACTION_NAME == 'member_list'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Member/member_list');?>">用户管理</a></li>
 					</ul>
 				</li><?php endif; ?>
 
@@ -176,10 +154,11 @@
 					</a>
 					<ul class="sub-menu">
 					   <!-------------------只有重大办才能发起项目-------------------->
-					   <?php if($_SESSION['usertype'] == 2): ?><li <?php if(ACTION_NAME == 'create'): ?>class="active"<?php endif; ?> >
+					   <?php if($_SESSION['usertype'] == 1): ?><li <?php if(ACTION_NAME == 'create'): ?>class="active"<?php endif; ?> >
 						<a href="<?php echo U('Project/create');?>">添加项目</a></li><?php endif; ?>
-						<li <?php if(ACTION_NAME == 'List'): ?>class="active"<?php endif; ?> >
-						<a href="<?php echo U('Project/List');?>">项目列表</a></li>
+						<li <?php if(ACTION_NAME == 'PList'): ?>class="active"<?php endif; ?> >
+						<a href="<?php echo U('Project/PList');?>">项目列表</a></li>
+						<li <?php if(ACTION_NAME == 'MList'): ?>class="active"<?php endif; ?> >
 					</ul>
 				</li>
 
@@ -231,12 +210,12 @@
 	<!-- BEGIN PAGE CONTAINER-->
 	<div class="container-fluid">
 		<!-- BEGIN PAGE HEADER-->
-		<div class="row-fluid">
+				<div class="row-fluid">
 			<div class="span12">
 				<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-				<h3 class="page-title"><small>欢迎你！</small><?php echo session('username');?> 　<small>您的登陆身份是：
-				<?php if($_SESSION['usertype'] == 2): ?>重大办<?php endif; ?>
-				<?php if($_SESSION['usertype'] == 1): ?>部门<?php endif; ?>
+				<h3 class="page-title"><small>欢迎你！</small><?php echo session('name');?> 　<small>您的登陆身份是：
+				<?php if($_SESSION['usertype'] == 1): ?>重大办<?php endif; ?>
+				<?php if($_SESSION['usertype'] == 2): ?>部门<?php endif; ?>
 				<?php if($_SESSION['usertype'] == 3): ?>乡镇街道<?php endif; ?>
 				</small></h3>
 			</div>
