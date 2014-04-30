@@ -190,7 +190,6 @@ class MemberAction extends BaseAction{
 
 		$list 	= $Group->where($where)->select();
 
-
 		$this->assign('list',$list);
 		$this->display('group_list');
 	}
@@ -249,8 +248,7 @@ class MemberAction extends BaseAction{
 			$postArr  = $this->_param();
 			$validate = array(
 		        array('groupname', 'require', '请填写用户名！', 1),
-		        array('groupname', '', '账号名称已存在！', 1, 'unique', 3)
-			 );
+		        array('groupname', '', '账号名称已存在！', 1, 'unique', 3));
 			$Group->setProperty("_validate",$validate);
 			$result = $Group->create();
 			 if (!$result){
@@ -269,9 +267,7 @@ class MemberAction extends BaseAction{
 			$this->assign('view',$view);		
 			$this->display('group_edit');
 		}		
-
 	}
-
 }
 
 
